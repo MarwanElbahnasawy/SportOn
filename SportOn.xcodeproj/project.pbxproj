@@ -28,6 +28,9 @@
 		17823C6D2A002A04009A8ED3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17823C6C2A002A04009A8ED3 /* Assets.xcassets */; };
 		17823C702A002A04009A8ED3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 17823C6E2A002A04009A8ED3 /* LaunchScreen.storyboard */; };
 		17823C922A008971009A8ED3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 17823C912A008971009A8ED3 /* Lottie */; };
+		178E1D332A03E3AA0049E26B /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178E1D322A03E3AA0049E26B /* TeamViewController.swift */; };
+		178E1D352A03E3B20049E26B /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178E1D342A03E3B20049E26B /* PlayerViewController.swift */; };
+		179639802A03EA1C0049ED9A /* TeamPlayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1796397F2A03EA1C0049ED9A /* TeamPlayerTableViewCell.swift */; };
 		17A530CB2A011E2D00FF054A /* splash_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 17A530CA2A011E2D00FF054A /* splash_animation.json */; };
 		17A942CF2A0168A700A9EF64 /* SportsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A942CE2A0168A700A9EF64 /* SportsViewController.swift */; };
 		17A942D32A01691C00A9EF64 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A942D22A01691C00A9EF64 /* FavoritesViewController.swift */; };
@@ -61,6 +64,9 @@
 		17823C6C2A002A04009A8ED3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		17823C6F2A002A04009A8ED3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		17823C712A002A04009A8ED3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		178E1D322A03E3AA0049E26B /* TeamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
+		178E1D342A03E3B20049E26B /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		1796397F2A03EA1C0049ED9A /* TeamPlayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamPlayerTableViewCell.swift; sourceTree = "<group>"; };
 		17A530CA2A011E2D00FF054A /* splash_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = splash_animation.json; sourceTree = "<group>"; };
 		17A942CE2A0168A700A9EF64 /* SportsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsViewController.swift; sourceTree = "<group>"; };
 		17A942D22A01691C00A9EF64 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
@@ -88,7 +94,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		170FE22B2A02AD0700F3D014 /* LeagueDetails */ = {
+		170FE22B2A02AD0700F3D014 /* League Details */ = {
 			isa = PBXGroup;
 			children = (
 				170FE22C2A02AD2F00F3D014 /* LeagueDetailsViewController.swift */,
@@ -96,7 +102,16 @@
 				170FE2302A02B12C00F3D014 /* LeagueDetailsLatestResultsCollectionViewCell.swift */,
 				170FE2322A02B13800F3D014 /* LeagueDetailsTeamsOrPlayersCollectionViewCell.swift */,
 			);
-			path = LeagueDetails;
+			path = "League Details";
+			sourceTree = "<group>";
+		};
+		170FE9AC2A03E36B00ADC277 /* Team Details */ = {
+			isa = PBXGroup;
+			children = (
+				178E1D322A03E3AA0049E26B /* TeamViewController.swift */,
+				1796397F2A03EA1C0049ED9A /* TeamPlayerTableViewCell.swift */,
+			);
+			path = "Team Details";
 			sourceTree = "<group>";
 		};
 		17823C542A002A01009A8ED3 = {
@@ -136,7 +151,9 @@
 		17823C772A002DA6009A8ED3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				170FE22B2A02AD0700F3D014 /* LeagueDetails */,
+				178E1D312A03E3940049E26B /* Player Details */,
+				170FE9AC2A03E36B00ADC277 /* Team Details */,
+				170FE22B2A02AD0700F3D014 /* League Details */,
 				17A942D82A017D3A00A9EF64 /* Leagues */,
 				17A942D12A01690900A9EF64 /* Favorites */,
 				17A942D02A01690300A9EF64 /* Sports Home Page */,
@@ -152,6 +169,14 @@
 				17A530CA2A011E2D00FF054A /* splash_animation.json */,
 			);
 			path = Splash;
+			sourceTree = "<group>";
+		};
+		178E1D312A03E3940049E26B /* Player Details */ = {
+			isa = PBXGroup;
+			children = (
+				178E1D342A03E3B20049E26B /* PlayerViewController.swift */,
+			);
+			path = "Player Details";
 			sourceTree = "<group>";
 		};
 		17A942D02A01690300A9EF64 /* Sports Home Page */ = {
@@ -368,13 +393,16 @@
 				170FE9A92A03B6BD00ADC277 /* ResultLeaguePlayersTennis.swift in Sources */,
 				17A942D72A01767600A9EF64 /* SportItem.swift in Sources */,
 				17A942DC2A0195EE00A9EF64 /* LeaguesTableViewCell.swift in Sources */,
+				178E1D352A03E3B20049E26B /* PlayerViewController.swift in Sources */,
 				170FE22A2A02AB8A00F3D014 /* ResultLeagueDetailsUpcoming.swift in Sources */,
 				170FE2392A02D82700F3D014 /* ResultTeamDetails.swift in Sources */,
 				17823C6B2A002A01009A8ED3 /* SportOn.xcdatamodeld in Sources */,
+				179639802A03EA1C0049ED9A /* TeamPlayerTableViewCell.swift in Sources */,
 				17A942CF2A0168A700A9EF64 /* SportsViewController.swift in Sources */,
 				170FE2332A02B13800F3D014 /* LeagueDetailsTeamsOrPlayersCollectionViewCell.swift in Sources */,
 				17823C612A002A01009A8ED3 /* AppDelegate.swift in Sources */,
 				170FE2372A02CC8C00F3D014 /* ResultLeagueTeams.swift in Sources */,
+				178E1D332A03E3AA0049E26B /* TeamViewController.swift in Sources */,
 				170FE2312A02B12C00F3D014 /* LeagueDetailsLatestResultsCollectionViewCell.swift in Sources */,
 				170FE9A72A03B6AA00ADC277 /* ResultLeagueDetailsLatestTennis.swift in Sources */,
 				17A942D52A01696700A9EF64 /* SportsCollectionViewCell.swift in Sources */,

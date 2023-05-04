@@ -29,11 +29,9 @@ struct Coach: Decodable {
 
 
 struct Player: Decodable {
-    let player_name: Int?
-    let playerName, player_number: String?
+    let player_name, player_number, player_type: String?
     let player_age, player_match_played, player_goals, player_yellow_cards: String?
     let player_red_cards: String?
     let player_image: String?
-
 }
 

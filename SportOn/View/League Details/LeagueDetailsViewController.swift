@@ -9,13 +9,9 @@ import UIKit
 import Kingfisher
 
 class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    
-    
+  
     @IBOutlet weak var collectionViewUpcoming: UICollectionView!
-    
     @IBOutlet weak var collectionViewLatestResults: UICollectionView!
-    
     @IBOutlet weak var collectionViewTeamsOrPlayers: UICollectionView!
     
     var sportSelected: String?
@@ -248,7 +244,35 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         if collectionView == self.collectionViewTeamsOrPlayers {
             if sportSelected != "tennis"{
                 
+                let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
+                
+                NetworkService.fetchTeam(sportName: sportSelected!, teamId: String(leagueDetailsTeams[indexPath.row].team_key!)) { res in
+                    guard let res = res, let result = res.result else {return}
+                    
+                    teamViewController.team = result[0]
+                    
+                    DispatchQueue.main.async {
+                        self.navigationController?.pushViewController(teamViewController, animated: true)
+
+                    }
+                    
+                }
+                
             } else{
+                
+                let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+                
+                NetworkService.fetchPlayer(sportName: sportSelected!, playerId: String(leagueDetailsPlayers[indexPath.row].player_key!)) { res in
+                    
+                        guard let res = res, let result = res.result else {return}
+                        
+                    playerViewController.player = result[0]
+                        
+                        DispatchQueue.main.async {
+                            self.navigationController?.pushViewController(playerViewController, animated: true)
+
+                        }
+                }
                 
             }
         }
