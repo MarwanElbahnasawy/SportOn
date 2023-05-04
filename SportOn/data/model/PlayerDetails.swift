@@ -1,5 +1,5 @@
 //
-//  ResultTeamDetailsTennis.swift
+//  PlayerDetails.swift
 //  SportOn
 //
 //  Created by Marwan Elbahnasawy on 04/05/2023.
@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: Player Details (for a certain sport (Tennis only) )
 
 struct ResultPlayerDetailsTennis: Decodable {
     let success: Int?

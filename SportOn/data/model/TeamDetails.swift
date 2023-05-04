@@ -1,11 +1,13 @@
 //
-//  ResultTeamDetails.swift
+//  TeamDetails.swift
 //  SportOn
 //
-//  Created by Marwan Elbahnasawy on 03/05/2023.
+//  Created by Marwan Elbahnasawy on 04/05/2023.
 //
 
 import Foundation
+
+// MARK: Team Details (for a certain sport (Football/Basketball/Cricket only) )
 
 struct ResultTeamDetails: Decodable {
     let success: Int?
@@ -34,4 +36,3 @@ struct Player: Decodable {
     let player_red_cards: String?
     let player_image: String?
 }
-

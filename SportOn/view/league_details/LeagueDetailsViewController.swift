@@ -7,12 +7,17 @@
 
 import UIKit
 import Kingfisher
+import CoreData
 
 class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
     @IBOutlet weak var collectionViewUpcoming: UICollectionView!
     @IBOutlet weak var collectionViewLatestResults: UICollectionView!
     @IBOutlet weak var collectionViewTeamsOrPlayers: UICollectionView!
+    
+    @IBOutlet weak var upcomingEventsLabel: UILabel!
+    @IBOutlet weak var addToFavOutlet: UIButton!
+    
     
     var sportSelected: String?
     var leagueIDSelected: Int?
@@ -28,13 +33,16 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     private var leagueDetailsUpcomingTennis : [ResultLeagueDetailsUpcomingTennisItem] = []
     private var leagueDetailsLatestResultsTennis : [ResultLeagueDetailsLatestTennisItem] = []
     private var leagueDetailsPlayers : [ResultLeaguePlayersTennisItem] = []
+    
+    var context: NSManagedObjectContext!
+    let db = DatabaseManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        context = appDelegate.persistentContainer.viewContext
 
-        
-        
         if sportSelected != "tennis"{
             
             NetworkService.fetchResultUpcoming(sportName: sportSelected!, leagueID: String(leagueIDSelected!)) { [weak self] res in
@@ -278,4 +286,9 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         }
     }
 
+    
+    @IBAction func addToFav(_ sender: Any) {
+        //db.insertLeagueToDB(context: context, league: <#T##LeagueItemDB#>)
+    }
+    
 }

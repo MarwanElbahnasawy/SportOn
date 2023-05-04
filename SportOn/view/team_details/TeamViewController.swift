@@ -31,12 +31,21 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         teamImgView.kf.setImage(with: URL(string: team?.team_logo ?? ""))
         
-        coachNameLabel.text = "Coach: \(team?.coaches![0].coach_name)"
+        if let team = team, let coaches = team.coaches {
+            coachNameLabel.text = "Coach: \(coaches[0].coach_name!)"
+        } else{
+            coachNameLabel.isHidden = true
+        }
+        
+        
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return teamPlayers!.count
+        if teamPlayers != nil {
+            return teamPlayers!.count
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -51,9 +60,23 @@ class TeamViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         cell.playerType.text = currentPlayer.player_type
         
-        cell.playerNumberLabel.text = "Player No. \(currentPlayer.player_number)"
+        if let _ = currentPlayer.player_number{
+            cell.playerNumberLabel.text = "Player No. \(currentPlayer.player_number!)"
+
+        } else{
+            cell.playerNumberLabel.isHidden = true
+
+        }
         
-        cell.playerMatchesCountLabel.text = "Matches Count: \(currentPlayer.player_match_played)"
+        if let _ = currentPlayer.player_match_played{
+            cell.playerMatchesCountLabel.text = "Matches Count: \(currentPlayer.player_match_played!)"
+
+        } else{
+            cell.playerMatchesCountLabel.isHidden = true
+
+        }
+        
+        
         
         
         return cell

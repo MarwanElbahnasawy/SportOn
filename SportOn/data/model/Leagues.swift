@@ -1,11 +1,13 @@
 //
-//  FootballLeaguesResult.swift
+//  Leagues.swift
 //  SportOn
 //
-//  Created by Marwan Elbahnasawy on 02/05/2023.
+//  Created by Marwan Elbahnasawy on 04/05/2023.
 //
 
 import Foundation
+
+// MARK: ResultLeagues (All leagues for any sport)
 
 class ResultLeagues: Decodable {
     var success : Int?
