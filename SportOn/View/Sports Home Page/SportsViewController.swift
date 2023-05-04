@@ -39,21 +39,21 @@ class SportsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let leaguesViewController = self.storyboard?.instantiateViewController(withIdentifier: "LeaguesViewController") as! LeaguesViewController
         
-        var league: String
+        var sportSelected: String
         switch indexPath.row {
         case 0:
-            league = "football"
+            sportSelected = "football"
         case 1:
-            league = "basketball"
+            sportSelected = "basketball"
         case 2:
-            league = "cricket"
+            sportSelected = "cricket"
         case 3:
-            league = "tennis"
+            sportSelected = "tennis"
         default:
-            league = "football"
+            sportSelected = "football"
         }
         
-        leaguesViewController.league = league
+        leaguesViewController.sportSelected = sportSelected
         navigationController?.pushViewController(leaguesViewController, animated: true)
     }
 
