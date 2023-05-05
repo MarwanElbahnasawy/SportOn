@@ -18,6 +18,7 @@ struct ResultTeamDetails: Decodable {
 struct ResultTeamDetailsItem: Decodable {
     let team_name: String?
     let team_logo: String?
+    let team_key: Int?
     let players: [Player]?
     let coaches: [Coach]?
 

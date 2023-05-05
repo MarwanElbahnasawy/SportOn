@@ -48,20 +48,7 @@ class LeaguesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         cell.leagueLabel.text = currentLeauge.league_name
         
-        if sportSelected == "football"{
-            cell.imgView.kf.setImage(with: URL(string: currentLeauge.league_logo ?? ""))
-        } else{
-            
-            
-            cell.imgView.isHidden = true
-            
-            cell.leagueLabel.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: 30).isActive = true
-
-
-        }
-        
-        
-
+        cell.imgView.kf.setImage(with: URL(string: currentLeauge.league_logo ?? ""))
         
         return cell
     }

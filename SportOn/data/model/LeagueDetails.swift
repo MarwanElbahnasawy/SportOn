@@ -89,6 +89,6 @@ struct ResultLeaguePlayersTennis: Decodable {
 }
 
 struct ResultLeaguePlayersTennisItem: Decodable {
-    let player_key: String?
+    let player_key: Int?
     let player_image: String?
 }

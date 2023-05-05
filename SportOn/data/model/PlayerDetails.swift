@@ -16,6 +16,7 @@ struct ResultPlayerDetailsTennis: Decodable {
 
 
 struct ResultPlayerDetailsTennisItem: Decodable {
+    let player_key: Int?
     let player_name, player_number: String?
     let player_age: String?
     let team_name: String?

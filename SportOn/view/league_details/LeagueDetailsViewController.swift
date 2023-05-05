@@ -16,7 +16,6 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     @IBOutlet weak var collectionViewTeamsOrPlayers: UICollectionView!
     
     @IBOutlet weak var upcomingEventsLabel: UILabel!
-    @IBOutlet weak var addToFavOutlet: UIButton!
     
     
     var sportSelected: String?
@@ -43,6 +42,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
 
+        // if sportSelected = football/basketball/cricket
         if sportSelected != "tennis"{
             
             NetworkService.fetchResultUpcoming(sportName: sportSelected!, leagueID: String(leagueIDSelected!)) { [weak self] res in
@@ -74,6 +74,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                     self?.collectionViewTeamsOrPlayers.reloadData()
                 }
             }
+            // if sportSelected = tennis
         } else if sportSelected == "tennis"{
             
             NetworkService.fetchResultUpcomingTennis(sportName: sportSelected!, leagueID: String(leagueIDSelected!)) { [weak self] res in
@@ -113,6 +114,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
+        // if sportSelected = football/basketball/cricket
         if sportSelected != "tennis"{
             if collectionView == self.collectionViewUpcoming {
                 return leagueDetailsUpcoming.count
@@ -121,6 +123,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             } else if collectionView == self.collectionViewTeamsOrPlayers {
                 return leagueDetailsTeams.count
             }
+            // if sportSelected = tennis
         } else{
             if collectionView == self.collectionViewUpcoming {
                 return leagueDetailsUpcomingTennis.count
@@ -137,6 +140,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        // if sportSelected = football/basketball/cricket
         if sportSelected != "tennis"{
             if collectionView == self.collectionViewUpcoming {
                 
@@ -182,6 +186,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                         return cell
                     
                 }
+            // if sportSelected = tennis
         } else {
             if collectionView == self.collectionViewUpcoming {
                 
@@ -250,6 +255,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.collectionViewTeamsOrPlayers {
+            // if sportSelected = football/basketball/cricket
             if sportSelected != "tennis"{
                 
                 let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
@@ -258,6 +264,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                     guard let res = res, let result = res.result else {return}
                     
                     teamViewController.team = result[0]
+                    teamViewController.sportSelected = self.sportSelected
                     
                     DispatchQueue.main.async {
                         self.navigationController?.pushViewController(teamViewController, animated: true)
@@ -265,7 +272,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                     }
                     
                 }
-                
+                // if sportSelected = tennis
             } else{
                 
                 let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
@@ -284,11 +291,6 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                 
             }
         }
-    }
-
-    
-    @IBAction func addToFav(_ sender: Any) {
-        //db.insertLeagueToDB(context: context, league: <#T##LeagueItemDB#>)
     }
     
 }

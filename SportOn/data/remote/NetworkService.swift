@@ -18,11 +18,10 @@ class NetworkService{
             urlString += "&\(key)=\(value)"
         }
         
-        print(urlString)
-        
         guard let url = URL(string: urlString) else{
             return
         }
+        
         let req = URLRequest(url: url)
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: req, completionHandler: complitionHandler)
