@@ -9,12 +9,16 @@ import UIKit
 
 class SportsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    let sportsItems : [SportItem] = [SportItem(title: "Football", image: UIImage(named: "football_square")!), SportItem(title: "Basketball", image: UIImage(named: "basketball_square")!), SportItem(title: "Cricket", image: UIImage(named: "cricket_square")! ),SportItem(title: "Tennis", image: UIImage(named: "tennis_square")!) ]
+    let sportsItems : [SportItem] = [SportItem(title: "Football", image: UIImage(named: "footballplayer")!), SportItem(title: "Basketball", image: UIImage(named: "basketballplayer")!), SportItem(title: "Cricket", image: UIImage(named: "cricketplayer")! ),SportItem(title: "Tennis", image: UIImage(named: "tennisplayer")!) ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Sports"
+        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 50)]
+        }
         
     }
     
@@ -26,6 +30,26 @@ class SportsViewController: UIViewController, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sportsCellHomeID", for: indexPath) as! SportsCollectionViewCell
         cell.imgView.image = sportsItems[indexPath.row].image
         cell.titleLabel.text = sportsItems[indexPath.row].title
+        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+        
+            cell.titleLabel.font = UIFont.systemFont(ofSize: 50)
+
+            cell.titleLabel.removeConstraint(cell.oldConstraintTitleTop)
+
+            let newTopConstraint = NSLayoutConstraint(
+                item: cell.titleLabel,
+                attribute: .top,
+                relatedBy: .equal,
+                toItem: cell.imgView,
+                attribute: .bottom,
+                multiplier: 0.8,
+                constant: 0
+            )
+
+            cell.contentView.addConstraint(newTopConstraint)
+            
+        }
         
         return cell
     }
@@ -43,10 +67,8 @@ class SportsViewController: UIViewController, UICollectionViewDelegate, UICollec
             sportSelected = "basketball"
         case 2:
             sportSelected = "cricket"
-        case 3:
-            sportSelected = "tennis"
         default:
-            sportSelected = "football"
+            sportSelected = "tennis"
         }
         
         leaguesViewController.sportSelected = sportSelected

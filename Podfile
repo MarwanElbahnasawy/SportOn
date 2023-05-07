@@ -7,5 +7,7 @@ target 'SportOn' do
 
   # Pods for SportOn
 pod 'Kingfisher', '~> 7.0'
+pod 'ReachabilitySwift'
+pod 'Toast-Swift', '~> 5.0.0'
 
 end

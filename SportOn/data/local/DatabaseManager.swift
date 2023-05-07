@@ -5,7 +5,7 @@
 //  Created by Marwan Elbahnasawy on 04/05/2023.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 class DatabaseManager {
@@ -14,6 +14,7 @@ class DatabaseManager {
     var context: NSManagedObjectContext!
     var teamObjects : [NSManagedObject]!
     var playerObjects : [NSManagedObject]!
+    var onboardingCheckerObjects : [NSManagedObject]!
     
     var delegateDeletedTeamConfirmation: DeletedTeamFromDatabaseConfirmation?
     var delegateInsertedTeamConfirmation : InsertedTeamToDatabaseConfirmation?
@@ -21,8 +22,12 @@ class DatabaseManager {
     var delegateDeletedPlayerConfirmation: DeletedPlayerFromDatabaseConfirmation?
     var delegateInsertedPlayerConfirmation : InsertedPlayerToDatabaseConfirmation?
     
+    init(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        context = appDelegate.persistentContainer.viewContext
+    }
     
-    func insert(context: NSManagedObjectContext, item: DatabaseItem){
+    func insert(item: DatabaseItem){
         
         var entity: NSEntityDescription
         var itemDB: NSManagedObject
@@ -82,6 +87,7 @@ class DatabaseManager {
                     
                     itemDB.setValue(castedItem.player_name, forKey: "player_name")
                     itemDB.setValue(castedItem.player_key, forKey: "player_key")
+                    itemDB.setValue(castedItem.player_image_string, forKey: "player_image_string")
                     
                     if castedItem.player_image != nil {
                         itemDB.setValue(castedItem.player_image, forKey: "player_image")
@@ -107,7 +113,7 @@ class DatabaseManager {
         
     }
     
-    func delete(teamOrPlayer: Int, context: NSManagedObjectContext, teamOrPlayerKey: Int){
+    func delete(teamOrPlayer: Int, teamOrPlayerKey: Int){
         //teamsOrPlayers = 1 for teams and = 2 for players.
         
         var fetchRequest: NSFetchRequest<NSManagedObject>
@@ -155,7 +161,7 @@ class DatabaseManager {
     }
     
     
-    func getAll(teamsOrPlayers: Int, context: NSManagedObjectContext) -> [DatabaseItem]{
+    func getAll(teamsOrPlayers: Int) -> [DatabaseItem]{
         //teamsOrPlayers = 1 for teams and = 2 for players.
         
         var fetchReq: NSFetchRequest<NSManagedObject>
@@ -200,8 +206,9 @@ class DatabaseManager {
                     let player_name = player.value(forKey: "player_name") as! String
                     let player_key = player.value(forKey: "player_key") as! Int
                     let player_image = player.value(forKey: "player_image") as? Data
-                    
-                    players.append(PlayerItemDB(player_key: player_key, player_name: player_name, player_image: player_image))
+                    let player_image_string = player.value(forKey: "player_image_string") as! String
+                                        
+                    players.append(PlayerItemDB(player_key: player_key, player_name: player_name, player_image: player_image, player_image_string: player_image_string))
                     
                 }
                 
@@ -218,5 +225,97 @@ class DatabaseManager {
         
     }
     
+    func setOnboardingWasShownBeforeToTrue(){
+        var entity: NSEntityDescription
+        var itemDB: NSManagedObject
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "OnboardingCheckerCoreData")
+        
+        do{
+            onboardingCheckerObjects = try context.fetch(fetchRequest)
+            
+            if onboardingCheckerObjects.count == 0 {
+                entity = NSEntityDescription.entity(forEntityName: "OnboardingCheckerCoreData", in: context)!
+                
+                itemDB = NSManagedObject(entity: entity, insertInto: context)
+                itemDB.setValue(true, forKey: "isShownBefore")
+                try context.save()
+                print("Successful insert")
+            }
+            
+        }
+        catch let error as NSError{
+            print(error.localizedDescription)
+        }
+    }
+    
+    func checkIfOnboardingWasShownBefore() -> Bool{
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "OnboardingCheckerCoreData")
+        
+        do{
+            onboardingCheckerObjects = try context.fetch(fetchRequest)
+            
+            if onboardingCheckerObjects.count == 0 {
+                return false
+            } else{
+                return true
+            }
+            
+        }
+        catch let error as NSError{
+            print(error.localizedDescription)
+        }
+        return false
+    }
+    
+    func checkIfItemExists(teamOrPlayerKey: Int, key: Int) -> Bool{
+        
+        var fetchRequest: NSFetchRequest<NSManagedObject>
+        var predicate: NSPredicate
+        
+        switch teamOrPlayerKey{
+        case 1:
+            fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TeamCoreData")
+            predicate = NSPredicate(format: "team_key == %d", key)
+            
+            fetchRequest.predicate = predicate
+            
+            do{
+                teamObjects = try context.fetch(fetchRequest)
+                
+                if teamObjects.count == 0 {
+                    return false
+                } else{
+                    return true
+                }
+                
+            }
+            catch let error as NSError{
+                print(error.localizedDescription)
+            }
+        case 2:
+            fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "PlayerCoreData")
+            predicate = NSPredicate(format: "player_key == %d", key)
+            
+            fetchRequest.predicate = predicate
+            
+            do{
+                playerObjects = try context.fetch(fetchRequest)
+                
+                if playerObjects.count == 0 {
+                    return false
+                } else{
+                    return true
+                }
+                
+            }
+            catch let error as NSError{
+                print(error.localizedDescription)
+            }
+        default:
+            return false
+        }
+        return false
+    }
     
 }

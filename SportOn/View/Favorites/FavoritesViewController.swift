@@ -12,7 +12,6 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
     
-    var context: NSManagedObjectContext!
     var teamObjects : [NSManagedObject]!
     var playerObjects : [NSManagedObject]!
     
@@ -24,11 +23,9 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        context = appDelegate.persistentContainer.viewContext
         
-        let teamsArrayDB = (db.getAll(teamsOrPlayers: 1, context: context)).map{ $0 as! TeamItemDB}
-        let playersArrayDB = (db.getAll(teamsOrPlayers: 2, context: context)).map{ $0 as! PlayerItemDB}
+        let teamsArrayDB = (db.getAll(teamsOrPlayers: 1)).map{ $0 as! TeamItemDB}
+        let playersArrayDB = (db.getAll(teamsOrPlayers: 2)).map{ $0 as! PlayerItemDB}
         
         arrayTeams = teamsArrayDB
         arrayPlayers = playersArrayDB
@@ -58,6 +55,8 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellFavoritesID") as! FavoritesTableViewCell
             
+            cell.selectionStyle = .none
+            
             let currentTeam = arrayTeams[indexPath.row]
             
             cell.teamOrPlayerNameLabel.text = currentTeam.team_name
@@ -67,11 +66,17 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                 cell.imgView.image = image
             }
             
+            if UIDevice.current.userInterfaceIdiom == .pad{
+                cell.teamOrPlayerNameLabel.font = UIFont.systemFont(ofSize: 40)
+            }
+            
             return cell
             
         default:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellFavoritesID") as! FavoritesTableViewCell
+            
+            cell.selectionStyle = .none
             
             let currentPlayer = arrayPlayers[indexPath.row]
             
@@ -80,6 +85,10 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             if let imageData = currentPlayer.player_image {
                 let image = UIImage(data: imageData)
                 cell.imgView.image = image
+            }
+            
+            if UIDevice.current.userInterfaceIdiom == .pad{
+                cell.teamOrPlayerNameLabel.font = UIFont.systemFont(ofSize: 40)
             }
             
             return cell
@@ -101,10 +110,10 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                 guard let res = res, let result = res.result else {return}
 
                 teamViewController.team = result[0]
-
+                teamViewController.sportSelected = currentTeam.sportSelected
+                
                 DispatchQueue.main.async {
-                    self.present(teamViewController, animated: true)
-
+                    self.navigationController?.pushViewController(teamViewController, animated: true)
                 }
                 
             }
@@ -120,7 +129,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                 playerViewController.player = result[0]
                     
                     DispatchQueue.main.async {
-                        self.present(playerViewController, animated: true)
+                        self.navigationController?.pushViewController(playerViewController, animated: true)
                     }
             }
         }
@@ -141,7 +150,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                     deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                         let currentTeam = self.arrayTeams[indexPath.row]
                         self.db.delegateDeletedTeamConfirmation = self
-                        self.db.delete(teamOrPlayer: 1, context: self.context, teamOrPlayerKey: currentTeam.team_key!)
+                        self.db.delete(teamOrPlayer: 1, teamOrPlayerKey: currentTeam.team_key!)
                     })
                     
                     
@@ -153,7 +162,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                     deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                     let currentPlayer = self.arrayPlayers[indexPath.row]
                     self.db.delegateDeletedPlayerConfirmation = self
-                    self.db.delete(teamOrPlayer: 2, context: self.context, teamOrPlayerKey: currentPlayer.player_key!)
+                    self.db.delete(teamOrPlayer: 2, teamOrPlayerKey: currentPlayer.player_key!)
                     })
                 
             }
@@ -175,21 +184,21 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func deletedTeamSuccessfully() {
         arrayTeams.removeAll()
-        arrayTeams = db.getAll(teamsOrPlayers: 1, context: context).map {$0 as! TeamItemDB}
+        arrayTeams = db.getAll(teamsOrPlayers: 1).map {$0 as! TeamItemDB}
         tableView.reloadData()
     }
     
     func deletedPlayerSuccessfully() {
         arrayPlayers.removeAll()
-        arrayPlayers = db.getAll(teamsOrPlayers: 2, context: context).map {$0 as! PlayerItemDB}
+        arrayPlayers = db.getAll(teamsOrPlayers: 2).map {$0 as! PlayerItemDB}
         tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         arrayTeams.removeAll()
-        arrayTeams = db.getAll(teamsOrPlayers: 1, context: context).map {$0 as! TeamItemDB}
+        arrayTeams = db.getAll(teamsOrPlayers: 1).map {$0 as! TeamItemDB}
         arrayPlayers.removeAll()
-        arrayPlayers = db.getAll(teamsOrPlayers: 2, context: context).map {$0 as! PlayerItemDB}
+        arrayPlayers = db.getAll(teamsOrPlayers: 2).map {$0 as! PlayerItemDB}
         tableView.reloadData()
     }
     

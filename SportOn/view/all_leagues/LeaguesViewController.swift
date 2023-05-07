@@ -20,6 +20,9 @@ class LeaguesViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
 
         title = "Leagues"
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 50)]
+        }
         
         NetworkService.fetchLeagues(sportName: sportSelected!) { [weak self] res in
                         
@@ -48,7 +51,19 @@ class LeaguesViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         cell.leagueLabel.text = currentLeauge.league_name
         
-        cell.imgView.kf.setImage(with: URL(string: currentLeauge.league_logo ?? ""))
+        cell.imgView.kf.setImage(with: URL(string: currentLeauge.league_logo ?? "")) { result in
+            if case .failure = result {
+                cell.imgView.image = UIImage(named: "imageplaceholdergeneral")
+            }
+        }
+        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+        
+            cell.leagueLabel.font = UIFont.systemFont(ofSize: 35)
+            
+            cell.oldConstraintLabelLeft.constant = 50
+            
+        }
         
         return cell
     }

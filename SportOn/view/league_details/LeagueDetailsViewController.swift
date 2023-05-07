@@ -16,7 +16,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     @IBOutlet weak var collectionViewTeamsOrPlayers: UICollectionView!
     
     @IBOutlet weak var upcomingEventsLabel: UILabel!
-    
+    @IBOutlet weak var latestResultsLabel: UILabel!
+    @IBOutlet weak var labelTeamsOrPlayers: UILabel!
     
     var sportSelected: String?
     var leagueIDSelected: Int?
@@ -33,14 +34,10 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     private var leagueDetailsLatestResultsTennis : [ResultLeagueDetailsLatestTennisItem] = []
     private var leagueDetailsPlayers : [ResultLeaguePlayersTennisItem] = []
     
-    var context: NSManagedObjectContext!
     let db = DatabaseManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        context = appDelegate.persistentContainer.viewContext
 
         // if sportSelected = football/basketball/cricket
         if sportSelected != "tennis"{
@@ -77,6 +74,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             // if sportSelected = tennis
         } else if sportSelected == "tennis"{
             
+            labelTeamsOrPlayers.text = "Players"
+            
             NetworkService.fetchResultUpcomingTennis(sportName: sportSelected!, leagueID: String(leagueIDSelected!)) { [weak self] res in
                 guard let res = res, let result = res.result else {return}
 
@@ -108,7 +107,11 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             }
         }
         
-        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            upcomingEventsLabel.font = UIFont.systemFont(ofSize: 40)
+            latestResultsLabel.font = UIFont.systemFont(ofSize: 40)
+            labelTeamsOrPlayers.font = UIFont.systemFont(ofSize: 40)
+        }
 
     }
     
@@ -152,10 +155,40 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                 cell.dateLabel.text = current.event_date
                 cell.timeLabel.text = current.event_time
                 
-                cell.imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? ""))
+                cell.imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? "")) { result in
+                    if case .failure = result {
+                        if self.sportSelected == "football"{
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderteamfootball")
+                        } else if self.sportSelected == "basketball" {
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderteambasketball")
+                        } else{
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderteam")
+                        }
+                        
+                    }
+                }
                 
-                cell.imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? ""))
-
+                
+                cell.imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? "")) { result in
+                    if case .failure = result {
+                        if self.sportSelected == "football"{
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderteamfootball")
+                        } else if self.sportSelected == "basketball" {
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderteambasketball")
+                        } else{
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderteam")
+                        }
+                        
+                    }
+                }
+                
+                if UIDevice.current.userInterfaceIdiom == .pad{
+                    cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
+                }
+                
                 return cell
                 
                 } else if collectionView == self.collectionViewLatestResults {
@@ -170,19 +203,60 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                         cell.timeLabel.text = current.event_time
                         cell.scoreLabel.text = current.event_final_result
                         
-                        cell.imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? ""))
-                        
-                        cell.imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? ""))
-                        
+                    cell.imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? "")) { result in
+                        if case .failure = result {
+                            if self.sportSelected == "football"{
+                                cell.imgViewHome.image = UIImage(named: "imageplaceholderteamfootball")
+                            } else if self.sportSelected == "basketball" {
+                                cell.imgViewHome.image = UIImage(named: "imageplaceholderteambasketball")
+                            } else{
+                                cell.imgViewHome.image = UIImage(named: "imageplaceholderteam")
+                            }
+                            
+                        }
+                    }
+                    
+                    cell.imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? "")) { result in
+                        if case .failure = result {
+                            if self.sportSelected == "football"{
+                                cell.imgViewAway.image = UIImage(named: "imageplaceholderteamfootball")
+                            } else if self.sportSelected == "basketball" {
+                                cell.imgViewAway.image = UIImage(named: "imageplaceholderteambasketball")
+                            } else{
+                                cell.imgViewAway.image = UIImage(named: "imageplaceholderteam")
+                            }
+                            
+                        }
+                    }
+                    
+                    if UIDevice.current.userInterfaceIdiom == .pad{
+                        cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.scoreLabel.font = UIFont.systemFont(ofSize: 30)
+                    }
+                    
                         return cell
                     
                 } else if collectionView == self.collectionViewTeamsOrPlayers {
                     
                         let cell = collectionViewTeamsOrPlayers.dequeueReusableCell(withReuseIdentifier: cellTeamsId, for: indexPath) as! LeagueDetailsTeamsOrPlayersCollectionViewCell
                         let current = leagueDetailsTeams[indexPath.row]
-                        
-                        cell.imgViewTeams.kf.setImage(with: URL(string: current.team_logo ?? ""))
-                        
+                    
+                    cell.imgViewTeams.kf.setImage(with: URL(string: current.team_logo ?? "")) { result in
+                        if case .failure = result {
+                            if self.sportSelected == "football"{
+                                cell.imgViewTeams.image = UIImage(named: "imageplaceholderteamfootball")
+                            } else if self.sportSelected == "basketball" {
+                                cell.imgViewTeams.image = UIImage(named: "imageplaceholderteambasketball")
+                            } else{
+                                cell.imgViewTeams.image = UIImage(named: "imageplaceholderteam")
+                            }
+                            
+                        }
+                    }
+                    
                         return cell
                     
                 }
@@ -198,10 +272,25 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                 cell.dateLabel.text = current.event_date
                 cell.timeLabel.text = current.event_time
                 
-                cell.imgViewHome.kf.setImage(with: URL(string: current.event_first_player_logo ?? ""))
+                cell.imgViewHome.kf.setImage(with: URL(string: current.event_first_player_logo ?? "")) { result in
+                    if case .failure = result {
+                        cell.imgViewHome.image = UIImage(named: "imageplaceholderplayer")
+                    }
+                }
                 
-                cell.imgViewAway.kf.setImage(with: URL(string: current.event_second_player_logo ?? ""))
+                cell.imgViewAway.kf.setImage(with: URL(string: current.event_second_player_logo ?? "")) { result in
+                    if case .failure = result {
+                        cell.imgViewAway.image = UIImage(named: "imageplaceholderplayer")
+                    }
+                }
 
+                if UIDevice.current.userInterfaceIdiom == .pad{
+                    cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
+                }
+                
                 return cell
                 
                 } else if collectionView == self.collectionViewLatestResults {
@@ -215,20 +304,39 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                         cell.dateLabel.text = current.event_date
                         cell.timeLabel.text = current.event_time
                         cell.scoreLabel.text = current.event_final_result
+                
+                    cell.imgViewHome.kf.setImage(with: URL(string: current.event_first_player_logo ?? "")) { result in
+                        if case .failure = result {
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderplayer")
+                        }
+                    }
+                    
+                    cell.imgViewAway.kf.setImage(with: URL(string: current.event_second_player_logo ?? "")) { result in
+                        if case .failure = result {
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderplayer")
+                        }
+                    }
                         
-                        cell.imgViewHome.kf.setImage(with: URL(string: current.event_first_player_logo ?? ""))
-                        
-                        cell.imgViewAway.kf.setImage(with: URL(string: current.event_second_player_logo ?? ""))
-                        
+                    if UIDevice.current.userInterfaceIdiom == .pad{
+                        cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
+                        cell.scoreLabel.font = UIFont.systemFont(ofSize: 30)
+                    }
+                    
                         return cell
                     
                 } else if collectionView == self.collectionViewTeamsOrPlayers {
                     
                         let cell = collectionViewTeamsOrPlayers.dequeueReusableCell(withReuseIdentifier: cellTeamsId, for: indexPath) as! LeagueDetailsTeamsOrPlayersCollectionViewCell
                         let current = leagueDetailsPlayers[indexPath.row]
-                        
-                    cell.imgViewTeams.kf.setImage(with: URL(string: current.player_image ?? ""))
-                        
+                       
+                    cell.imgViewTeams.kf.setImage(with: URL(string: current.player_image ?? "")) { result in
+                        if case .failure = result {
+                            cell.imgViewTeams.image = UIImage(named: "imageplaceholderplayer")
+                        }
+                    }
                         return cell
                     
                 }
@@ -240,12 +348,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == self.collectionViewUpcoming {
+        if collectionView == self.collectionViewUpcoming || collectionView == self.collectionViewLatestResults {
             return collectionView.bounds.size
-        } else if collectionView == self.collectionViewLatestResults{
-            let width = collectionView.bounds.size.width
-                let height = collectionView.bounds.size.height * 0.7
-                return CGSize(width: width, height: height)
         } else{
             let width = collectionView.bounds.size.width * 0.4
                 let height = collectionView.bounds.size.height

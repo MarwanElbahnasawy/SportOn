@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22D68" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="OnboardingCheckerCoreData" representedClassName="OnboardingCheckerCoreData" syncable="YES" codeGenerationType="class">
+        <attribute name="isShownBefore" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
     <entity name="PlayerCoreData" representedClassName="PlayerCoreData" syncable="YES" codeGenerationType="class">
         <attribute name="player_image" optional="YES" attributeType="Binary"/>
+        <attribute name="player_image_string" optional="YES" attributeType="String"/>
         <attribute name="player_key" optional="YES" attributeType="Integer 32" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="player_name" optional="YES" attributeType="String"/>
     </entity>

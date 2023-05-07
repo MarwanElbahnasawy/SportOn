@@ -7,15 +7,39 @@
 
 import UIKit
 import CoreData
+import Reachability
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var reachability: Reachability?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+  
+        do{
+            try reachability = Reachability()
+            NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+            try reachability!.startNotifier()
+        } catch let error {
+            print("Error initializing Reachability")
+            print(error.localizedDescription)
+        }
+        
+        
         return true
+    }
+    
+    
+    @objc func reachabilityChanged(note: Notification) {
+
+      let reachability = note.object as! Reachability
+        
+        if reachability.connection == .wifi || reachability.connection == .cellular {
+            NotificationCenter.default.post(name: Notification.Name("networkAvailable"), object: nil)
+        } else if reachability.connection == .unavailable{
+            NotificationCenter.default.post(name: Notification.Name("networkUnavailable"), object: nil)
+        }
     }
 
     // MARK: UISceneSession Lifecycle

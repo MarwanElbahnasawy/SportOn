@@ -13,5 +13,6 @@ class SportsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var oldConstraintTitleTop: NSLayoutConstraint!
     
 }

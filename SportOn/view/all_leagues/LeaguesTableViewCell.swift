@@ -14,6 +14,7 @@ class LeaguesTableViewCell: UITableViewCell {
     
     @IBOutlet weak var leagueLabel: UILabel!
     
+    @IBOutlet weak var oldConstraintLabelLeft: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
