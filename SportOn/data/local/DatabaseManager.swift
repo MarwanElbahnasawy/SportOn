@@ -16,18 +16,12 @@ class DatabaseManager {
     var playerObjects : [NSManagedObject]!
     var onboardingCheckerObjects : [NSManagedObject]!
     
-    var delegateDeletedTeamConfirmation: DeletedTeamFromDatabaseConfirmation?
-    var delegateInsertedTeamConfirmation : InsertedTeamToDatabaseConfirmation?
-    
-    var delegateDeletedPlayerConfirmation: DeletedPlayerFromDatabaseConfirmation?
-    var delegateInsertedPlayerConfirmation : InsertedPlayerToDatabaseConfirmation?
-    
     init(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         context = appDelegate.persistentContainer.viewContext
     }
     
-    func insert(item: DatabaseItem){
+    func insert(item: DatabaseItem, completionHandler: ()->()){
         
         var entity: NSEntityDescription
         var itemDB: NSManagedObject
@@ -104,8 +98,7 @@ class DatabaseManager {
         
         do{
             try context.save()
-            print("Successful insert")
-            //delegateInsert?.insertedLeagueSuccessfully()
+            completionHandler()
         } catch let error as NSError{
             print(error.localizedDescription)
         }
@@ -113,7 +106,7 @@ class DatabaseManager {
         
     }
     
-    func deleteTeam(teamKey: Int){
+    func deleteTeam(teamKey: Int, completionHandler: ()->()){
         
         var fetchRequest: NSFetchRequest<NSManagedObject>
         var predicate: NSPredicate
@@ -129,8 +122,7 @@ class DatabaseManager {
                 context.delete(teamObjects[0])
                 
                 try context.save()
-                print("Successful delete")
-                delegateDeletedTeamConfirmation?.deletedTeamSuccessfully()
+                completionHandler()
             } catch let error as NSError{
                 print(error.localizedDescription)
             }
@@ -138,7 +130,7 @@ class DatabaseManager {
         
     }
     
-    func deletePlayer(playerKey: Int){
+    func deletePlayer(playerKey: Int, completionHandler: ()->()){
         
         var fetchRequest: NSFetchRequest<NSManagedObject>
         var predicate: NSPredicate
@@ -154,8 +146,7 @@ class DatabaseManager {
                 context.delete(playerObjects[0])
                 
                 try context.save()
-                print("Successful delete")
-                delegateDeletedPlayerConfirmation?.deletedPlayerSuccessfully()
+                completionHandler()
             } catch let error as NSError{
                 print(error.localizedDescription)
             }

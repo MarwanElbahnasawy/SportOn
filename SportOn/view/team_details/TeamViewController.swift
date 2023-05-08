@@ -39,55 +39,55 @@ class TeamViewController: MyBaseViewController, UITableViewDelegate, UITableView
         
         enableLottie()
         
-        NetworkService.fetchTeam(sportName: sportSelected!, teamId: teamId!) { res in
+        NetworkService.fetchTeam(sportName: sportSelected!, teamId: teamId!) { [weak self] res in
             guard let res = res, let result = res.result else {return}
             
-            self.team = result[0]
+            self?.team = result[0]
             
             DispatchQueue.main.async {
-                self.teamPlayers = self.team?.players
+                self?.teamPlayers = self?.team?.players
                 
-                self.teamName.text = self.team?.team_name
+                self?.teamName.text = self?.team?.team_name
                         
-                self.teamImgView.kf.setImage(with: URL(string: self.team?.team_logo ?? "")) { result in
+                self?.teamImgView.kf.setImage(with: URL(string: self?.team?.team_logo ?? "")) { result in
                     if case .failure = result {
-                        if self.sportSelected == "football"{
-                            self.teamImgView.image = UIImage(named: "imageplaceholderteamfootball")
-                        } else if self.sportSelected == "basketball"{
-                            self.teamImgView.image = UIImage(named: "imageplaceholderteambasketball")
+                        if self?.sportSelected == "football"{
+                            self?.teamImgView.image = UIImage(named: "imageplaceholderteamfootball")
+                        } else if self?.sportSelected == "basketball"{
+                            self?.teamImgView.image = UIImage(named: "imageplaceholderteambasketball")
                         } else{
-                            self.teamImgView.image = UIImage(named: "imageplaceholdergeneral")
+                            self?.teamImgView.image = UIImage(named: "imageplaceholdergeneral")
                         }
                         
                     }
                 }
                 
-                if let team = self.team, let coaches = team.coaches {
-                    self.coachNameLabel.text = "Coach: \(coaches[0].coach_name!)"
+                if let team = self?.team, let coaches = team.coaches {
+                    self?.coachNameLabel.text = "Coach: \(coaches[0].coach_name!)"
                 } else{
-                    self.coachNameLabel.isHidden = true
+                    self?.coachNameLabel.isHidden = true
                 }
                 
-                if let imageData = self.teamImgView.image?.pngData() {
-                    self.teamLogoData = imageData
+                if let imageData = self?.teamImgView.image?.pngData() {
+                    self?.teamLogoData = imageData
                 } else{
                     
-                    if self.sportSelected == "football"{
-                        self.teamLogoData = UIImage(named: "imageplaceholderteamfootball")?.pngData()
-                    } else if self.sportSelected == "basketball" {
-                        self.teamLogoData = UIImage(named: "imageplaceholderteambasketball")?.pngData()
+                    if self?.sportSelected == "football"{
+                        self?.teamLogoData = UIImage(named: "imageplaceholderteamfootball")?.pngData()
+                    } else if self?.sportSelected == "basketball" {
+                        self?.teamLogoData = UIImage(named: "imageplaceholderteambasketball")?.pngData()
                     } else{
-                        self.teamLogoData = UIImage(named: "imageplaceholdergeneral")?.pngData()
+                        self?.teamLogoData = UIImage(named: "imageplaceholdergeneral")?.pngData()
                     }
                 }
                 
                 if UIDevice.current.userInterfaceIdiom == .pad{
-                    self.teamName.font = UIFont.systemFont(ofSize: 60)
-                    self.coachNameLabel.font = UIFont.systemFont(ofSize: 45)
+                    self?.teamName.font = UIFont.systemFont(ofSize: 60)
+                    self?.coachNameLabel.font = UIFont.systemFont(ofSize: 45)
                 }
                 
-                self.tableView.reloadData()
-                self.disableLottie()
+                self?.tableView.reloadData()
+                self?.disableLottie()
             }
             
         }
@@ -161,7 +161,9 @@ class TeamViewController: MyBaseViewController, UITableViewDelegate, UITableView
             let alertController = UIAlertController(title: "Delete Team", message: "Are you sure you want to delete this team?", preferredStyle: .alert)
 
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.db.deleteTeam(teamKey: (self.team?.team_key)!)
+                self.db.deleteTeam(teamKey: (self.team?.team_key)!) {
+                    InsertDeleteSnackBar.make(in: self.view, message: "Deleted Successfully.", duration: .custom(1)).show()
+                }
                 self.starTeam.setImage(UIImage(named: "emptystar"), for: .normal)
             })
 
@@ -172,7 +174,9 @@ class TeamViewController: MyBaseViewController, UITableViewDelegate, UITableView
 
             present(alertController, animated: true)
         } else{
-            db.insert(item: TeamItemDB(team_name: team?.team_name ?? "", team_logo: teamLogoData, team_logo_string: team?.team_logo ?? "", team_key: team?.team_key, sportSelected: sportSelected))
+            db.insert(item: TeamItemDB(team_name: team?.team_name ?? "", team_logo: teamLogoData, team_logo_string: team?.team_logo ?? "", team_key: team?.team_key, sportSelected: sportSelected)) {
+                InsertDeleteSnackBar.make(in: self.view, message: "Inserted Successfully.", duration: .custom(1)).show()
+            }
             
                 starTeam.setImage(UIImage(named: "goldenstar"), for: .normal)
         }

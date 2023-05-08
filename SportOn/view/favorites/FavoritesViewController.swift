@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITableViewDataSource, DeletedTeamFromDatabaseConfirmation, DeletedPlayerFromDatabaseConfirmation  {
+class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITableViewDataSource  {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -158,11 +158,13 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                     
                     deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                         let currentTeam = self.arrayTeams[indexPath.row]
-                        self.db.delegateDeletedTeamConfirmation = self
-                        self.db.deleteTeam(teamKey: currentTeam.team_key!)
+                        self.db.deleteTeam(teamKey: currentTeam.team_key!) {
+                            self.arrayTeams.removeAll()
+                            self.arrayTeams = self.db.getAllTeams().map {$0 as! TeamItemDB}
+                            tableView.reloadData()
+                            InsertDeleteSnackBar.make(in: self.view, message: "Deleted Successfully.", duration: .custom(1)).show()
+                        }
                     })
-                    
-                    
                     
                 default:
                     
@@ -170,8 +172,12 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                     
                     deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                     let currentPlayer = self.arrayPlayers[indexPath.row]
-                    self.db.delegateDeletedPlayerConfirmation = self
-                    self.db.deletePlayer(playerKey: currentPlayer.player_key!)
+                        self.db.deletePlayer(playerKey: currentPlayer.player_key!) {
+                            self.arrayPlayers.removeAll()
+                            self.arrayPlayers = self.db.getAllPlayers().map {$0 as! PlayerItemDB}
+                            tableView.reloadData()
+                            InsertDeleteSnackBar.make(in: self.view, message: "Deleted Successfully.", duration: .custom(1)).show()
+                        }
                     })
                 
             }
@@ -187,20 +193,6 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.size.height * 0.2
-    }
-    
-    
-    
-    func deletedTeamSuccessfully() {
-        arrayTeams.removeAll()
-        arrayTeams = db.getAllTeams().map {$0 as! TeamItemDB}
-        tableView.reloadData()
-    }
-    
-    func deletedPlayerSuccessfully() {
-        arrayPlayers.removeAll()
-        arrayPlayers = db.getAllPlayers().map {$0 as! PlayerItemDB}
-        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {

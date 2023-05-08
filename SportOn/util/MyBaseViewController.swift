@@ -65,3 +65,12 @@ class AppSnackBar: SnackBar {
         return style
     }
 }
+
+class InsertDeleteSnackBar: SnackBar{
+    override var style: SnackBarStyle{
+        var style = SnackBarStyle()
+        //style.background = .red
+        //style.textColor = .black
+        return style
+    }
+}
