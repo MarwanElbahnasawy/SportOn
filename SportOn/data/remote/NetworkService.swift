@@ -34,7 +34,8 @@ class NetworkService{
         
         fetchData(met: "Leagues", sportName: sportName, additionalParam: [:]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeagues.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeagues.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -60,7 +61,8 @@ class NetworkService{
         
         fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":fromDateString, "to":toDateString, "leagueId":leagueID]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeagueDetailsUpcoming.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeagueDetailsUpcoming.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -85,7 +87,8 @@ class NetworkService{
 
         fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":fromDateString, "to":toDateString, "leagueId":leagueID ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeagueDetailsUpcomingTennis.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeagueDetailsUpcomingTennis.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -101,8 +104,8 @@ class NetworkService{
 
         fetchData(met: "Livescore", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeagueDetailsLatest.self, from: data!)
-                
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeagueDetailsLatest.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -119,7 +122,8 @@ class NetworkService{
         
         fetchData(met: "Livescore", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeagueDetailsLatestTennis.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeagueDetailsLatestTennis.self, from: data)
                 
                 complitionHandler(res)
             } catch let error {
@@ -136,7 +140,8 @@ class NetworkService{
 
         fetchData(met: "Teams", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeagueTeams.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeagueTeams.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -152,7 +157,8 @@ class NetworkService{
 
         fetchData(met: "Players", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultLeaguePlayersTennis.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultLeaguePlayersTennis.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -168,7 +174,8 @@ class NetworkService{
         
         fetchData(met: "Teams", sportName: sportName, additionalParam: ["teamId":teamId ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultTeamDetails.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultTeamDetails.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)
@@ -184,7 +191,8 @@ class NetworkService{
         
         fetchData(met: "Players", sportName: sportName, additionalParam: ["playerId":playerId ]) { data, _, error in
             do{
-                let res = try JSONDecoder().decode(ResultPlayerDetailsTennis.self, from: data!)
+                guard let data = data else {return}
+                let res = try JSONDecoder().decode(ResultPlayerDetailsTennis.self, from: data)
                 complitionHandler(res)
             } catch let error {
                 print(error.localizedDescription)

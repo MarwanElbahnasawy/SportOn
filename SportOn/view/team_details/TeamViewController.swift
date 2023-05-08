@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class TeamViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TeamViewController: MyBaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var teamName: UILabel!
     

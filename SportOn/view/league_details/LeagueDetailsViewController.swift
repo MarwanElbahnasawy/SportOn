@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import CoreData
 
-class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   
     @IBOutlet weak var collectionViewUpcoming: UICollectionView!
     @IBOutlet weak var collectionViewLatestResults: UICollectionView!
@@ -358,43 +358,59 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == self.collectionViewTeamsOrPlayers {
-            // if sportSelected = football/basketball/cricket
-            if sportSelected != "tennis"{
+        
+            if collectionView == self.collectionViewTeamsOrPlayers {
                 
-                let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
-                
-                NetworkService.fetchTeam(sportName: sportSelected!, teamId: String(leagueDetailsTeams[indexPath.row].team_key!)) { res in
-                    guard let res = res, let result = res.result else {return}
+                if !MyBaseViewController.isNetworkAvailable{
+                    let alertController = UIAlertController(title: "Connectivity Issue", message: "Please connect to the internet.", preferredStyle: .alert)
                     
-                    teamViewController.team = result[0]
-                    teamViewController.sportSelected = self.sportSelected
-                    
-                    DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(teamViewController, animated: true)
+                    let cancelAction = UIAlertAction(title: "OK", style: .cancel)
+                    alertController.addAction(cancelAction)
 
-                    }
-                    
-                }
-                // if sportSelected = tennis
-            } else{
-                
-                let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-                
-                NetworkService.fetchPlayer(sportName: sportSelected!, playerId: String(leagueDetailsPlayers[indexPath.row].player_key!)) { res in
-                    
-                        guard let res = res, let result = res.result else {return}
+                    present(alertController, animated: true)
+                } else{
+                    // if sportSelected = football/basketball/cricket
+                    if sportSelected != "tennis"{
                         
-                    playerViewController.player = result[0]
+                        let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
                         
-                        DispatchQueue.main.async {
-                            self.navigationController?.pushViewController(playerViewController, animated: true)
+                        NetworkService.fetchTeam(sportName: sportSelected!, teamId: String(leagueDetailsTeams[indexPath.row].team_key!)) { res in
+                            guard let res = res, let result = res.result else {return}
+                            
+                            teamViewController.team = result[0]
+                            teamViewController.sportSelected = self.sportSelected
+                            
+                            DispatchQueue.main.async {
+                                self.navigationController?.pushViewController(teamViewController, animated: true)
 
+                            }
+                            
                         }
+                        // if sportSelected = tennis
+                    } else{
+                        
+                        let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+                        
+                        NetworkService.fetchPlayer(sportName: sportSelected!, playerId: String(leagueDetailsPlayers[indexPath.row].player_key!)) { res in
+                            
+                                guard let res = res, let result = res.result else {return}
+                                
+                            playerViewController.player = result[0]
+                                
+                                DispatchQueue.main.async {
+                                    self.navigationController?.pushViewController(playerViewController, animated: true)
+
+                                }
+                        }
+                        
+                    }
                 }
+                
                 
             }
-        }
+        
+        
+        
     }
     
 }

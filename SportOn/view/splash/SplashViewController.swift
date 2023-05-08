@@ -9,7 +9,7 @@ import UIKit
 import Lottie
 import CoreData
 
-class SplashViewController: UIViewController {
+class SplashViewController: MyBaseViewController {
 
     let animationView = LottieAnimationView(name: "splash_animation")
     
@@ -18,8 +18,6 @@ class SplashViewController: UIViewController {
         
         override func viewDidLoad() {
             super.viewDidLoad()
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(networkUnavailable), name: Notification.Name("networkUnavailable"), object: nil)
             
             animationView.frame = view.bounds
             
@@ -44,9 +42,5 @@ class SplashViewController: UIViewController {
         performSegue(withIdentifier: "segueSplashToHome", sender: self)
 
     }
-    
-    @objc func networkUnavailable() {
-        // e3mel el onboarding el awwal
-        }
 
     }

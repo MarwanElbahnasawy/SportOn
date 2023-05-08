@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SportsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SportsViewController: MyBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     let sportsItems : [SportItem] = [SportItem(title: "Football", image: UIImage(named: "footballplayer")!), SportItem(title: "Basketball", image: UIImage(named: "basketballplayer")!), SportItem(title: "Cricket", image: UIImage(named: "cricketplayer")! ),SportItem(title: "Tennis", image: UIImage(named: "tennisplayer")!) ]
     
@@ -15,9 +15,10 @@ class SportsViewController: UIViewController, UICollectionViewDelegate, UICollec
         super.viewDidLoad()
         
         title = "Sports"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)]
         
         if UIDevice.current.userInterfaceIdiom == .pad{
-            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 50)]
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]
         }
         
     }
@@ -57,22 +58,33 @@ class SportsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let leaguesViewController = self.storyboard?.instantiateViewController(withIdentifier: "LeaguesViewController") as! LeaguesViewController
         
-        var sportSelected: String
-        switch indexPath.row {
-        case 0:
-            sportSelected = "football"
-        case 1:
-            sportSelected = "basketball"
-        case 2:
-            sportSelected = "cricket"
-        default:
-            sportSelected = "tennis"
+        if !MyBaseViewController.isNetworkAvailable{
+            let alertController = UIAlertController(title: "Connectivity Issue", message: "Please connect to the internet.", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "OK", style: .cancel)
+            alertController.addAction(cancelAction)
+
+            present(alertController, animated: true)
+        } else{
+            let leaguesViewController = self.storyboard?.instantiateViewController(withIdentifier: "LeaguesViewController") as! LeaguesViewController
+            
+            var sportSelected: String
+            switch indexPath.row {
+            case 0:
+                sportSelected = "football"
+            case 1:
+                sportSelected = "basketball"
+            case 2:
+                sportSelected = "cricket"
+            default:
+                sportSelected = "tennis"
+            }
+            
+            leaguesViewController.sportSelected = sportSelected
+            navigationController?.pushViewController(leaguesViewController, animated: true)
         }
         
-        leaguesViewController.sportSelected = sportSelected
-        navigationController?.pushViewController(leaguesViewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

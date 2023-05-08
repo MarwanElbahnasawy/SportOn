@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class FavoritesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DeletedTeamFromDatabaseConfirmation, DeletedPlayerFromDatabaseConfirmation  {
+class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITableViewDataSource, DeletedTeamFromDatabaseConfirmation, DeletedPlayerFromDatabaseConfirmation  {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -100,39 +100,50 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        switch indexPath.section {
-        case 0:
-            let currentTeam = self.arrayTeams[indexPath.row]
+        if !MyBaseViewController.isNetworkAvailable{
+            let alertController = UIAlertController(title: "Connectivity Issue", message: "Please connect to the internet.", preferredStyle: .alert)
             
-            let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
-            
-            NetworkService.fetchTeam(sportName: currentTeam.sportSelected!, teamId: String(currentTeam.team_key!)) { res in
-                guard let res = res, let result = res.result else {return}
+            let cancelAction = UIAlertAction(title: "OK", style: .cancel)
+            alertController.addAction(cancelAction)
 
-                teamViewController.team = result[0]
-                teamViewController.sportSelected = currentTeam.sportSelected
+            present(alertController, animated: true)
+        } else{
+            switch indexPath.section {
+            case 0:
+                let currentTeam = self.arrayTeams[indexPath.row]
                 
-                DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(teamViewController, animated: true)
-                }
+                let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
                 
-            }
-        default:
-            let currentPlayer = self.arrayPlayers[indexPath.row]
-            
-            let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-            
-            NetworkService.fetchPlayer(sportName: "tennis", playerId: String(currentPlayer.player_key!)) { res in
-                
+                NetworkService.fetchTeam(sportName: currentTeam.sportSelected!, teamId: String(currentTeam.team_key!)) { res in
                     guard let res = res, let result = res.result else {return}
-                    
-                playerViewController.player = result[0]
+
+                    teamViewController.team = result[0]
+                    teamViewController.sportSelected = currentTeam.sportSelected
                     
                     DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(playerViewController, animated: true)
+                        self.navigationController?.pushViewController(teamViewController, animated: true)
                     }
+                    
+                }
+            default:
+                let currentPlayer = self.arrayPlayers[indexPath.row]
+                
+                let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+                
+                NetworkService.fetchPlayer(sportName: "tennis", playerId: String(currentPlayer.player_key!)) { res in
+                    
+                        guard let res = res, let result = res.result else {return}
+                        
+                    playerViewController.player = result[0]
+                        
+                        DispatchQueue.main.async {
+                            self.navigationController?.pushViewController(playerViewController, animated: true)
+                        }
+                }
             }
         }
+        
+        
         
     }
     

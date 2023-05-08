@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 
-class PlayerViewController: UIViewController {
+class PlayerViewController: MyBaseViewController {
     
     @IBOutlet weak var playerNameLabel: UILabel!
     @IBOutlet weak var playerImgView: UIImageView!

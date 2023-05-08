@@ -9,5 +9,6 @@ target 'SportOn' do
 pod 'Kingfisher', '~> 7.0'
 pod 'ReachabilitySwift'
 pod 'Toast-Swift', '~> 5.0.0'
+pod 'SnackBar.swift'
 
 end

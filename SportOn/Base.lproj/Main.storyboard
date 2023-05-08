@@ -114,7 +114,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="CWT-5f-1ns">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="80" width="375" height="587"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LeaguesCell" rowHeight="168" id="1TG-24-6xW" customClass="LeaguesTableViewCell" customModule="SportOn" customModuleProvider="target">
@@ -159,17 +159,29 @@
                                     <outlet property="delegate" destination="gOK-WF-qib" id="K24-Sf-5JU"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="o1m-Gr-gbQ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="gOK-WF-qib" id="OFI-6K-ACg"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="sVk-5J-7I0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="CWT-5f-1ns" firstAttribute="top" secondItem="sVk-5J-7I0" secondAttribute="top" id="Cxi-eC-h3q"/>
+                            <constraint firstItem="o1m-Gr-gbQ" firstAttribute="leading" secondItem="sVk-5J-7I0" secondAttribute="leading" id="1uu-1U-5Fo"/>
+                            <constraint firstItem="sVk-5J-7I0" firstAttribute="trailing" secondItem="o1m-Gr-gbQ" secondAttribute="trailing" id="EIp-9L-UKn"/>
+                            <constraint firstItem="CWT-5f-1ns" firstAttribute="top" secondItem="o1m-Gr-gbQ" secondAttribute="bottom" id="IXT-6B-fQd"/>
+                            <constraint firstItem="o1m-Gr-gbQ" firstAttribute="top" secondItem="sVk-5J-7I0" secondAttribute="top" id="RUu-FH-7m7"/>
+                            <constraint firstItem="o1m-Gr-gbQ" firstAttribute="height" secondItem="uO3-rE-7GS" secondAttribute="height" multiplier="0.12" id="pIa-sF-Kd3"/>
                             <constraint firstItem="CWT-5f-1ns" firstAttribute="leading" secondItem="sVk-5J-7I0" secondAttribute="leading" id="tN0-6R-MYU"/>
                             <constraint firstItem="sVk-5J-7I0" firstAttribute="bottom" secondItem="CWT-5f-1ns" secondAttribute="bottom" id="wXh-oc-xUe"/>
                             <constraint firstItem="sVk-5J-7I0" firstAttribute="trailing" secondItem="CWT-5f-1ns" secondAttribute="trailing" id="x86-6W-hOj"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="searchBar" destination="o1m-Gr-gbQ" id="KxE-JL-gVr"/>
                         <outlet property="tableView" destination="CWT-5f-1ns" id="seR-VV-UEM"/>
                     </connections>
                 </viewController>
@@ -801,11 +813,13 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="YUr-Ww-324" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Qed-QD-0jk"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cIM-yw-odx" customClass="CustomTabBar" customModule="SportOn" customModuleProvider="target">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cIM-yw-odx">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tabBarAppearance key="standardAppearance"/>
+                        <tabBarAppearance key="standardAppearance">
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </tabBarAppearance>
                     </tabBar>
                     <connections>
                         <segue destination="apb-8X-deI" kind="relationship" relationship="viewControllers" id="ZF3-G6-TBb"/>
@@ -973,7 +987,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lrR-F8-UV8"/>
+        <segue reference="g0o-Cm-chD"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bookmark.fill" catalog="system" width="110" height="128"/>

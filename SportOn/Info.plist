@@ -17,8 +17,6 @@
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
 					<string>Main</string>
-<!--                    <key>UILaunchStoryboardName</key>-->
-<!--                    <string>LaunchScreen</string>-->
 				</dict>
 			</array>
 		</dict>
