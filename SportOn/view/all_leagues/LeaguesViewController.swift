@@ -76,7 +76,7 @@ class LeaguesViewController: MyBaseViewController, UITableViewDelegate, UITableV
         
         cell.imgView.kf.setImage(with: URL(string: currentLeauge.league_logo ?? "")) { result in
             if case .failure = result {
-                cell.imgView.image = UIImage(named: "imageplaceholdergeneral")
+                cell.imgView.image = UIImage(named: "leagueplaceholder")
             }
         }
         

@@ -157,11 +157,11 @@ class TeamViewController: MyBaseViewController, UITableViewDelegate, UITableView
     
     @IBAction func addToFav(_ sender: Any) {
         
-        if db.checkIfItemExists(teamOrPlayerKey: 1, key: (team?.team_key)!) {
+        if db.checkIfTeamExists(teamKey: (team?.team_key)!){
             let alertController = UIAlertController(title: "Delete Team", message: "Are you sure you want to delete this team?", preferredStyle: .alert)
 
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.db.delete(teamOrPlayer: 1, teamOrPlayerKey: (self.team?.team_key)!)
+                self.db.deleteTeam(teamKey: (self.team?.team_key)!)
                 self.starTeam.setImage(UIImage(named: "emptystar"), for: .normal)
             })
 
@@ -182,7 +182,7 @@ class TeamViewController: MyBaseViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if db.checkIfItemExists(teamOrPlayerKey: 1, key: Int(teamId!)!){
+        if db.checkIfTeamExists(teamKey: Int(teamId!)!){
             starTeam.setImage(UIImage(named: "goldenstar"), for: .normal)
         } else{
             starTeam.setImage(UIImage(named: "emptystar"), for: .normal)

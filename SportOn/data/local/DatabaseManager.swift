@@ -113,16 +113,13 @@ class DatabaseManager {
         
     }
     
-    func delete(teamOrPlayer: Int, teamOrPlayerKey: Int){
-        //teamsOrPlayers = 1 for teams and = 2 for players.
+    func deleteTeam(teamKey: Int){
         
         var fetchRequest: NSFetchRequest<NSManagedObject>
         var predicate: NSPredicate
-        
-        if teamOrPlayer == 1 {
             
             fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TeamCoreData")
-            predicate = NSPredicate(format: "team_key == %d", teamOrPlayerKey)
+            predicate = NSPredicate(format: "team_key == %d", teamKey)
             
             fetchRequest.predicate = predicate
             
@@ -138,10 +135,17 @@ class DatabaseManager {
                 print(error.localizedDescription)
             }
             
-        } else if teamOrPlayer == 2{
+        
+    }
+    
+    func deletePlayer(playerKey: Int){
+        
+        var fetchRequest: NSFetchRequest<NSManagedObject>
+        var predicate: NSPredicate
+        
             
             fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "PlayerCoreData")
-            predicate = NSPredicate(format: "player_key == %d", teamOrPlayerKey)
+            predicate = NSPredicate(format: "player_key == %d", playerKey)
             
             fetchRequest.predicate = predicate
             
@@ -156,20 +160,16 @@ class DatabaseManager {
                 print(error.localizedDescription)
             }
             
-        }
+        
         
     }
     
     
-    func getAll(teamsOrPlayers: Int) -> [DatabaseItem]{
-        //teamsOrPlayers = 1 for teams and = 2 for players.
+    func getAllTeams() -> [DatabaseItem]{
         
         var fetchReq: NSFetchRequest<NSManagedObject>
         var teams: [TeamItemDB]
-        var players: [PlayerItemDB]
-        
-        if teamsOrPlayers == 1 {
-            
+         
             teams = [TeamItemDB]()
             fetchReq = NSFetchRequest<NSManagedObject>(entityName: "TeamCoreData")
             
@@ -194,8 +194,17 @@ class DatabaseManager {
                 print(error.localizedDescription)
             }
             
-            
-        } else if teamsOrPlayers == 2{
+        
+        
+        return [DatabaseItem]()
+        
+    }
+    
+    func getAllPlayers() -> [DatabaseItem]{
+        
+        var fetchReq: NSFetchRequest<NSManagedObject>
+        var players: [PlayerItemDB]
+        
             
             players = [PlayerItemDB]()
             fetchReq = NSFetchRequest<NSManagedObject>(entityName: "PlayerCoreData")
@@ -218,7 +227,7 @@ class DatabaseManager {
                 print(error.localizedDescription)
             }
             
-        }
+        
         
         
         return [DatabaseItem]()
@@ -268,15 +277,13 @@ class DatabaseManager {
         return false
     }
     
-    func checkIfItemExists(teamOrPlayerKey: Int, key: Int) -> Bool{
+    func checkIfTeamExists(teamKey: Int) -> Bool{
         
         var fetchRequest: NSFetchRequest<NSManagedObject>
         var predicate: NSPredicate
-        
-        switch teamOrPlayerKey{
-        case 1:
+
             fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "TeamCoreData")
-            predicate = NSPredicate(format: "team_key == %d", key)
+            predicate = NSPredicate(format: "team_key == %d", teamKey)
             
             fetchRequest.predicate = predicate
             
@@ -293,9 +300,18 @@ class DatabaseManager {
             catch let error as NSError{
                 print(error.localizedDescription)
             }
-        case 2:
+        
+        
+        return false
+    }
+    
+    func checkIfPlayerExists(playerKey: Int) -> Bool{
+        
+        var fetchRequest: NSFetchRequest<NSManagedObject>
+        var predicate: NSPredicate
+        
             fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "PlayerCoreData")
-            predicate = NSPredicate(format: "player_key == %d", key)
+            predicate = NSPredicate(format: "player_key == %d", playerKey)
             
             fetchRequest.predicate = predicate
             
@@ -312,9 +328,7 @@ class DatabaseManager {
             catch let error as NSError{
                 print(error.localizedDescription)
             }
-        default:
-            return false
-        }
+        
         return false
     }
     

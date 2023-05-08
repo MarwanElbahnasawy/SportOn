@@ -30,8 +30,8 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]
         }
         
-        let teamsArrayDB = (db.getAll(teamsOrPlayers: 1)).map{ $0 as! TeamItemDB}
-        let playersArrayDB = (db.getAll(teamsOrPlayers: 2)).map{ $0 as! PlayerItemDB}
+        let teamsArrayDB = (db.getAllTeams()).map{ $0 as! TeamItemDB}
+        let playersArrayDB = (db.getAllPlayers()).map{ $0 as! PlayerItemDB}
         
         arrayTeams = teamsArrayDB
         arrayPlayers = playersArrayDB
@@ -159,7 +159,7 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                     deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                         let currentTeam = self.arrayTeams[indexPath.row]
                         self.db.delegateDeletedTeamConfirmation = self
-                        self.db.delete(teamOrPlayer: 1, teamOrPlayerKey: currentTeam.team_key!)
+                        self.db.deleteTeam(teamKey: currentTeam.team_key!)
                     })
                     
                     
@@ -171,7 +171,7 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                     deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                     let currentPlayer = self.arrayPlayers[indexPath.row]
                     self.db.delegateDeletedPlayerConfirmation = self
-                    self.db.delete(teamOrPlayer: 2, teamOrPlayerKey: currentPlayer.player_key!)
+                    self.db.deletePlayer(playerKey: currentPlayer.player_key!)
                     })
                 
             }
@@ -193,21 +193,21 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
     
     func deletedTeamSuccessfully() {
         arrayTeams.removeAll()
-        arrayTeams = db.getAll(teamsOrPlayers: 1).map {$0 as! TeamItemDB}
+        arrayTeams = db.getAllTeams().map {$0 as! TeamItemDB}
         tableView.reloadData()
     }
     
     func deletedPlayerSuccessfully() {
         arrayPlayers.removeAll()
-        arrayPlayers = db.getAll(teamsOrPlayers: 2).map {$0 as! PlayerItemDB}
+        arrayPlayers = db.getAllPlayers().map {$0 as! PlayerItemDB}
         tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         arrayTeams.removeAll()
-        arrayTeams = db.getAll(teamsOrPlayers: 1).map {$0 as! TeamItemDB}
+        arrayTeams = db.getAllTeams().map {$0 as! TeamItemDB}
         arrayPlayers.removeAll()
-        arrayPlayers = db.getAll(teamsOrPlayers: 2).map {$0 as! PlayerItemDB}
+        arrayPlayers = db.getAllPlayers().map {$0 as! PlayerItemDB}
         tableView.reloadData()
     }
     

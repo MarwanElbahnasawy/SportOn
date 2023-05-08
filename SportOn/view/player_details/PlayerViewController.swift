@@ -77,11 +77,11 @@ class PlayerViewController: MyBaseViewController {
 
     @IBAction func addToFav(_ sender: Any) {
         
-        if db.checkIfItemExists(teamOrPlayerKey: 2, key: (player?.player_key)!) {
+        if db.checkIfPlayerExists(playerKey: (player?.player_key)!) {
             let alertController = UIAlertController(title: "Delete Player", message: "Are you sure you want to delete this player?", preferredStyle: .alert)
             
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                self.db.delete(teamOrPlayer: 2, teamOrPlayerKey: (self.player?.player_key)!)
+                self.db.deletePlayer(playerKey: (self.player?.player_key)!)
                 self.starPlayer.setImage(UIImage(named: "emptystar"), for: .normal)
             })
             
@@ -102,7 +102,7 @@ class PlayerViewController: MyBaseViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if db.checkIfItemExists(teamOrPlayerKey: 2, key: (player?.player_key)!){
+        if db.checkIfPlayerExists(playerKey: (player?.player_key)!){
             starPlayer.setImage(UIImage(named: "goldenstar"), for: .normal)
         } else{
             starPlayer.setImage(UIImage(named: "emptystar"), for: .normal)
