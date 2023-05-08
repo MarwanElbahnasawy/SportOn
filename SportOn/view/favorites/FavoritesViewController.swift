@@ -23,6 +23,12 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Favorites"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)]
+        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]
+        }
         
         let teamsArrayDB = (db.getAll(teamsOrPlayers: 1)).map{ $0 as! TeamItemDB}
         let playersArrayDB = (db.getAll(teamsOrPlayers: 2)).map{ $0 as! PlayerItemDB}
@@ -114,37 +120,29 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                 
                 let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
                 
-                NetworkService.fetchTeam(sportName: currentTeam.sportSelected!, teamId: String(currentTeam.team_key!)) { res in
-                    guard let res = res, let result = res.result else {return}
-
-                    teamViewController.team = result[0]
-                    teamViewController.sportSelected = currentTeam.sportSelected
-                    
-                    DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(teamViewController, animated: true)
-                    }
+                teamViewController.sportSelected = currentTeam.sportSelected!
+                teamViewController.teamId = String(currentTeam.team_key!)
+                
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(teamViewController, animated: true)
                     
                 }
+                
             default:
                 let currentPlayer = self.arrayPlayers[indexPath.row]
                 
                 let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
                 
-                NetworkService.fetchPlayer(sportName: "tennis", playerId: String(currentPlayer.player_key!)) { res in
-                    
-                        guard let res = res, let result = res.result else {return}
+                playerViewController.sportSelected = "tennis"
+                playerViewController.playerId = String(currentPlayer.player_key!)
+                
+                    DispatchQueue.main.async {
+                        self.navigationController?.pushViewController(playerViewController, animated: true)
                         
-                    playerViewController.player = result[0]
-                        
-                        DispatchQueue.main.async {
-                            self.navigationController?.pushViewController(playerViewController, animated: true)
-                        }
-                }
+                    }
             }
         }
-        
-        
-        
+          
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -188,7 +186,7 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UIScreen.main.bounds.height * 0.18
+        return view.frame.size.height * 0.2
     }
     
     

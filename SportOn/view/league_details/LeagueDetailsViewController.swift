@@ -8,9 +8,10 @@
 import UIKit
 import Kingfisher
 import CoreData
+import Lottie
 
 class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-  
+    
     @IBOutlet weak var collectionViewUpcoming: UICollectionView!
     @IBOutlet weak var collectionViewLatestResults: UICollectionView!
     @IBOutlet weak var collectionViewTeamsOrPlayers: UICollectionView!
@@ -18,6 +19,10 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
     @IBOutlet weak var upcomingEventsLabel: UILabel!
     @IBOutlet weak var latestResultsLabel: UILabel!
     @IBOutlet weak var labelTeamsOrPlayers: UILabel!
+    
+    @IBOutlet weak var lottieViewUpcoming: LottieAnimationView!
+    @IBOutlet weak var lottieViewLatest: LottieAnimationView!
+    @IBOutlet weak var lottieViewTeamsPlayers: LottieAnimationView!
     
     var sportSelected: String?
     var leagueIDSelected: Int?
@@ -35,40 +40,73 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
     private var leagueDetailsPlayers : [ResultLeaguePlayersTennisItem] = []
     
     let db = DatabaseManager.shared
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        title = "League Details"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)]
+        
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]
+        }
+        
+        enableLottie(lottieView: lottieViewUpcoming)
+        enableLottie(lottieView: lottieViewLatest)
+        enableLottie(lottieView: lottieViewTeamsPlayers)
+        
         // if sportSelected = football/basketball/cricket
         if sportSelected != "tennis"{
             
             NetworkService.fetchResultUpcoming(sportName: sportSelected!, leagueID: String(leagueIDSelected!)) { [weak self] res in
-                guard let res = res, let result = res.result else {return}
+                guard let res = res, let result = res.result else {
+                    DispatchQueue.main.async {
+                        self?.disableLottie(lottieView: (self?.lottieViewUpcoming)!)
+                        self?.view.addSubview(LabelGenerator.generateLabel(text: "No Upcoming Matches Available.", frame: (self?.lottieViewUpcoming.frame)!))
+                    }
+                    return
+                    
+                }
                 
                 self?.leagueDetailsUpcoming = result
                 
                 DispatchQueue.main.async {
                     self?.collectionViewUpcoming.reloadData()
+                    self?.disableLottie(lottieView: (self?.lottieViewUpcoming)!)
                 }
             }
             
             NetworkService.fetchResultLatest(sportName: sportSelected!, leagueId: String(leagueIDSelected!)) { [weak self] res in
-                guard let res = res, let result = res.result else {return}
+                guard let res = res, let result = res.result else {
+                    DispatchQueue.main.async {
+                        self?.disableLottie(lottieView: (self?.lottieViewLatest)!)
+                        self?.view.addSubview(LabelGenerator.generateLabel(text: "No Live Matches Available.", frame: (self?.lottieViewLatest.frame)!))
+                    }
+                    return
+                }
                 
                 self?.leagueDetailsLatestResults = result
-                            
+                
                 DispatchQueue.main.async {
                     self?.collectionViewLatestResults.reloadData()
+                    self?.disableLottie(lottieView: (self?.lottieViewLatest)!)
                 }
             }
             
             NetworkService.fetchTeams(sportName: sportSelected!, leagueId: String(leagueIDSelected!)) { [weak self] res in
-                guard let res = res, let result = res.result else {return}
-                            
+                guard let res = res, let result = res.result else {
+                    DispatchQueue.main.async {
+                        self?.disableLottie(lottieView: (self?.lottieViewTeamsPlayers)!)
+                        self?.view.addSubview(LabelGenerator.generateLabel(text: "No Teams Available.", frame: (self?.lottieViewTeamsPlayers.frame)!))
+                    }
+                    return
+                }
+                
                 self?.leagueDetailsTeams = result
                 
                 DispatchQueue.main.async {
                     self?.collectionViewTeamsOrPlayers.reloadData()
+                    self?.disableLottie(lottieView: (self?.lottieViewTeamsPlayers)!)
                 }
             }
             // if sportSelected = tennis
@@ -77,32 +115,55 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
             labelTeamsOrPlayers.text = "Players"
             
             NetworkService.fetchResultUpcomingTennis(sportName: sportSelected!, leagueID: String(leagueIDSelected!)) { [weak self] res in
-                guard let res = res, let result = res.result else {return}
-
+                guard let res = res, let result = res.result else {
+                    DispatchQueue.main.async {
+                        self?.disableLottie(lottieView: (self?.lottieViewUpcoming)!)
+                        self?.view.addSubview(LabelGenerator.generateLabel(text: "No Upcoming Matches Available.", frame: (self?.lottieViewUpcoming.frame)!))
+                    }
+                    return
+                }
+                
                 self?.leagueDetailsUpcomingTennis = result
-
+                
                 DispatchQueue.main.async {
                     self?.collectionViewUpcoming.reloadData()
+                    self?.disableLottie(lottieView: (self?.lottieViewUpcoming)!)
                 }
             }
             
             NetworkService.fetchResultLatestTennis(sportName: sportSelected!, leagueId: String(leagueIDSelected!)) { [weak self] res in
-                guard let res = res, let result = res.result else {return}
-
+                guard let res = res, let result = res.result else {
+                    DispatchQueue.main.async {
+                        self?.disableLottie(lottieView: (self?.lottieViewLatest)!)
+                        self?.view.addSubview(LabelGenerator.generateLabel(text: "No Live Matches Available.", frame: (self?.lottieViewLatest.frame)!))
+                    }
+                    return
+                    
+                }
+                
                 self?.leagueDetailsLatestResultsTennis = result
-
+                
                 DispatchQueue.main.async {
                     self?.collectionViewLatestResults.reloadData()
+                    self?.disableLottie(lottieView: (self?.lottieViewLatest)!)
                 }
             }
             
             NetworkService.fetchPlayers(sportName: sportSelected!, leagueId: String(leagueIDSelected!)) { [weak self] res in
-                guard let res = res, let result = res.result else {return}
-                            
+                guard let res = res, let result = res.result else {
+                    DispatchQueue.main.async {
+                        self?.disableLottie(lottieView: (self?.lottieViewTeamsPlayers)!)
+                        self?.view.addSubview(LabelGenerator.generateLabel(text: "No Players Available.", frame: (self?.lottieViewTeamsPlayers.frame)!))
+                    }
+                    return
+                    
+                }
+                
                 self?.leagueDetailsPlayers = result
                 
                 DispatchQueue.main.async {
                     self?.collectionViewTeamsOrPlayers.reloadData()
+                    self?.disableLottie(lottieView: (self?.lottieViewTeamsPlayers)!)
                 }
             }
         }
@@ -112,7 +173,7 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
             latestResultsLabel.font = UIFont.systemFont(ofSize: 40)
             labelTeamsOrPlayers.font = UIFont.systemFont(ofSize: 40)
         }
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -191,75 +252,75 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
                 
                 return cell
                 
-                } else if collectionView == self.collectionViewLatestResults {
-                    
-                        let cell = collectionViewLatestResults.dequeueReusableCell(withReuseIdentifier: cellLatestResultsId, for: indexPath) as! LeagueDetailsLatestResultsCollectionViewCell
-                        let current = leagueDetailsLatestResults[indexPath.row]
-                        
-                        
-                        cell.homeLabel.text = current.event_home_team
-                        cell.awayLabel.text = current.event_away_team
-                        cell.dateLabel.text = current.event_date
-                        cell.timeLabel.text = current.event_time
-                        cell.scoreLabel.text = current.event_final_result
-                        
-                    cell.imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? "")) { result in
-                        if case .failure = result {
-                            if self.sportSelected == "football"{
-                                cell.imgViewHome.image = UIImage(named: "imageplaceholderteamfootball")
-                            } else if self.sportSelected == "basketball" {
-                                cell.imgViewHome.image = UIImage(named: "imageplaceholderteambasketball")
-                            } else{
-                                cell.imgViewHome.image = UIImage(named: "imageplaceholderteam")
-                            }
-                            
+            } else if collectionView == self.collectionViewLatestResults {
+                
+                let cell = collectionViewLatestResults.dequeueReusableCell(withReuseIdentifier: cellLatestResultsId, for: indexPath) as! LeagueDetailsLatestResultsCollectionViewCell
+                let current = leagueDetailsLatestResults[indexPath.row]
+                
+                
+                cell.homeLabel.text = current.event_home_team
+                cell.awayLabel.text = current.event_away_team
+                cell.dateLabel.text = current.event_date
+                cell.timeLabel.text = current.event_time
+                cell.scoreLabel.text = current.event_final_result
+                
+                cell.imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? "")) { result in
+                    if case .failure = result {
+                        if self.sportSelected == "football"{
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderteamfootball")
+                        } else if self.sportSelected == "basketball" {
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderteambasketball")
+                        } else{
+                            cell.imgViewHome.image = UIImage(named: "imageplaceholderteam")
                         }
+                        
                     }
-                    
-                    cell.imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? "")) { result in
-                        if case .failure = result {
-                            if self.sportSelected == "football"{
-                                cell.imgViewAway.image = UIImage(named: "imageplaceholderteamfootball")
-                            } else if self.sportSelected == "basketball" {
-                                cell.imgViewAway.image = UIImage(named: "imageplaceholderteambasketball")
-                            } else{
-                                cell.imgViewAway.image = UIImage(named: "imageplaceholderteam")
-                            }
-                            
-                        }
-                    }
-                    
-                    if UIDevice.current.userInterfaceIdiom == .pad{
-                        cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.scoreLabel.font = UIFont.systemFont(ofSize: 30)
-                    }
-                    
-                        return cell
-                    
-                } else if collectionView == self.collectionViewTeamsOrPlayers {
-                    
-                        let cell = collectionViewTeamsOrPlayers.dequeueReusableCell(withReuseIdentifier: cellTeamsId, for: indexPath) as! LeagueDetailsTeamsOrPlayersCollectionViewCell
-                        let current = leagueDetailsTeams[indexPath.row]
-                    
-                    cell.imgViewTeams.kf.setImage(with: URL(string: current.team_logo ?? "")) { result in
-                        if case .failure = result {
-                            if self.sportSelected == "football"{
-                                cell.imgViewTeams.image = UIImage(named: "imageplaceholderteamfootball")
-                            } else if self.sportSelected == "basketball" {
-                                cell.imgViewTeams.image = UIImage(named: "imageplaceholderteambasketball")
-                            } else{
-                                cell.imgViewTeams.image = UIImage(named: "imageplaceholderteam")
-                            }
-                            
-                        }
-                    }
-                    
-                        return cell
-                    
                 }
+                
+                cell.imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? "")) { result in
+                    if case .failure = result {
+                        if self.sportSelected == "football"{
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderteamfootball")
+                        } else if self.sportSelected == "basketball" {
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderteambasketball")
+                        } else{
+                            cell.imgViewAway.image = UIImage(named: "imageplaceholderteam")
+                        }
+                        
+                    }
+                }
+                
+                if UIDevice.current.userInterfaceIdiom == .pad{
+                    cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.scoreLabel.font = UIFont.systemFont(ofSize: 30)
+                }
+                
+                return cell
+                
+            } else if collectionView == self.collectionViewTeamsOrPlayers {
+                
+                let cell = collectionViewTeamsOrPlayers.dequeueReusableCell(withReuseIdentifier: cellTeamsId, for: indexPath) as! LeagueDetailsTeamsOrPlayersCollectionViewCell
+                let current = leagueDetailsTeams[indexPath.row]
+                
+                cell.imgViewTeams.kf.setImage(with: URL(string: current.team_logo ?? "")) { result in
+                    if case .failure = result {
+                        if self.sportSelected == "football"{
+                            cell.imgViewTeams.image = UIImage(named: "imageplaceholderteamfootball")
+                        } else if self.sportSelected == "basketball" {
+                            cell.imgViewTeams.image = UIImage(named: "imageplaceholderteambasketball")
+                        } else{
+                            cell.imgViewTeams.image = UIImage(named: "imageplaceholderteam")
+                        }
+                        
+                    }
+                }
+                
+                return cell
+                
+            }
             // if sportSelected = tennis
         } else {
             if collectionView == self.collectionViewUpcoming {
@@ -283,7 +344,7 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
                         cell.imgViewAway.image = UIImage(named: "imageplaceholderplayer")
                     }
                 }
-
+                
                 if UIDevice.current.userInterfaceIdiom == .pad{
                     cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
                     cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
@@ -293,53 +354,53 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
                 
                 return cell
                 
-                } else if collectionView == self.collectionViewLatestResults {
-                    
-                        let cell = collectionViewLatestResults.dequeueReusableCell(withReuseIdentifier: cellLatestResultsId, for: indexPath) as! LeagueDetailsLatestResultsCollectionViewCell
-                        let current = leagueDetailsLatestResultsTennis[indexPath.row]
-                        
-                        
-                        cell.homeLabel.text = current.event_first_player
-                        cell.awayLabel.text = current.event_second_player
-                        cell.dateLabel.text = current.event_date
-                        cell.timeLabel.text = current.event_time
-                        cell.scoreLabel.text = current.event_final_result
+            } else if collectionView == self.collectionViewLatestResults {
                 
-                    cell.imgViewHome.kf.setImage(with: URL(string: current.event_first_player_logo ?? "")) { result in
-                        if case .failure = result {
-                            cell.imgViewHome.image = UIImage(named: "imageplaceholderplayer")
-                        }
+                let cell = collectionViewLatestResults.dequeueReusableCell(withReuseIdentifier: cellLatestResultsId, for: indexPath) as! LeagueDetailsLatestResultsCollectionViewCell
+                let current = leagueDetailsLatestResultsTennis[indexPath.row]
+                
+                
+                cell.homeLabel.text = current.event_first_player
+                cell.awayLabel.text = current.event_second_player
+                cell.dateLabel.text = current.event_date
+                cell.timeLabel.text = current.event_time
+                cell.scoreLabel.text = current.event_final_result
+                
+                cell.imgViewHome.kf.setImage(with: URL(string: current.event_first_player_logo ?? "")) { result in
+                    if case .failure = result {
+                        cell.imgViewHome.image = UIImage(named: "imageplaceholderplayer")
                     }
-                    
-                    cell.imgViewAway.kf.setImage(with: URL(string: current.event_second_player_logo ?? "")) { result in
-                        if case .failure = result {
-                            cell.imgViewAway.image = UIImage(named: "imageplaceholderplayer")
-                        }
-                    }
-                        
-                    if UIDevice.current.userInterfaceIdiom == .pad{
-                        cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
-                        cell.scoreLabel.font = UIFont.systemFont(ofSize: 30)
-                    }
-                    
-                        return cell
-                    
-                } else if collectionView == self.collectionViewTeamsOrPlayers {
-                    
-                        let cell = collectionViewTeamsOrPlayers.dequeueReusableCell(withReuseIdentifier: cellTeamsId, for: indexPath) as! LeagueDetailsTeamsOrPlayersCollectionViewCell
-                        let current = leagueDetailsPlayers[indexPath.row]
-                       
-                    cell.imgViewTeams.kf.setImage(with: URL(string: current.player_image ?? "")) { result in
-                        if case .failure = result {
-                            cell.imgViewTeams.image = UIImage(named: "imageplaceholderplayer")
-                        }
-                    }
-                        return cell
-                    
                 }
+                
+                cell.imgViewAway.kf.setImage(with: URL(string: current.event_second_player_logo ?? "")) { result in
+                    if case .failure = result {
+                        cell.imgViewAway.image = UIImage(named: "imageplaceholderplayer")
+                    }
+                }
+                
+                if UIDevice.current.userInterfaceIdiom == .pad{
+                    cell.homeLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.awayLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.dateLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.timeLabel.font = UIFont.systemFont(ofSize: 30)
+                    cell.scoreLabel.font = UIFont.systemFont(ofSize: 30)
+                }
+                
+                return cell
+                
+            } else if collectionView == self.collectionViewTeamsOrPlayers {
+                
+                let cell = collectionViewTeamsOrPlayers.dequeueReusableCell(withReuseIdentifier: cellTeamsId, for: indexPath) as! LeagueDetailsTeamsOrPlayersCollectionViewCell
+                let current = leagueDetailsPlayers[indexPath.row]
+                
+                cell.imgViewTeams.kf.setImage(with: URL(string: current.player_image ?? "")) { result in
+                    if case .failure = result {
+                        cell.imgViewTeams.image = UIImage(named: "imageplaceholderplayer")
+                    }
+                }
+                return cell
+                
+            }
         }
         
         
@@ -352,65 +413,69 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
             return collectionView.bounds.size
         } else{
             let width = collectionView.bounds.size.width * 0.4
-                let height = collectionView.bounds.size.height
-                return CGSize(width: width, height: height)
+            let height = collectionView.bounds.size.height
+            return CGSize(width: width, height: height)
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-            if collectionView == self.collectionViewTeamsOrPlayers {
+        if collectionView == self.collectionViewTeamsOrPlayers {
+            
+            if !MyBaseViewController.isNetworkAvailable{
+                let alertController = UIAlertController(title: "Connectivity Issue", message: "Please connect to the internet.", preferredStyle: .alert)
                 
-                if !MyBaseViewController.isNetworkAvailable{
-                    let alertController = UIAlertController(title: "Connectivity Issue", message: "Please connect to the internet.", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "OK", style: .cancel)
+                alertController.addAction(cancelAction)
+                
+                present(alertController, animated: true)
+            } else{
+                // if sportSelected = football/basketball/cricket
+                if sportSelected != "tennis"{
                     
-                    let cancelAction = UIAlertAction(title: "OK", style: .cancel)
-                    alertController.addAction(cancelAction)
-
-                    present(alertController, animated: true)
-                } else{
-                    // if sportSelected = football/basketball/cricket
-                    if sportSelected != "tennis"{
-                        
-                        let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
-                        
-                        NetworkService.fetchTeam(sportName: sportSelected!, teamId: String(leagueDetailsTeams[indexPath.row].team_key!)) { res in
-                            guard let res = res, let result = res.result else {return}
-                            
-                            teamViewController.team = result[0]
-                            teamViewController.sportSelected = self.sportSelected
-                            
-                            DispatchQueue.main.async {
-                                self.navigationController?.pushViewController(teamViewController, animated: true)
-
-                            }
-                            
-                        }
-                        // if sportSelected = tennis
-                    } else{
-                        
-                        let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
-                        
-                        NetworkService.fetchPlayer(sportName: sportSelected!, playerId: String(leagueDetailsPlayers[indexPath.row].player_key!)) { res in
-                            
-                                guard let res = res, let result = res.result else {return}
-                                
-                            playerViewController.player = result[0]
-                                
-                                DispatchQueue.main.async {
-                                    self.navigationController?.pushViewController(playerViewController, animated: true)
-
-                                }
-                        }
+                    let teamViewController = self.storyboard?.instantiateViewController(withIdentifier: "TeamViewController") as! TeamViewController
+                    
+                    teamViewController.sportSelected = self.sportSelected
+                    teamViewController.teamId = String(leagueDetailsTeams[indexPath.row].team_key!)
+                    
+                    DispatchQueue.main.async {
+                        self.navigationController?.pushViewController(teamViewController, animated: true)
                         
                     }
+                    
+                    // if sportSelected = tennis
+                } else{
+                    
+                    let playerViewController = self.storyboard?.instantiateViewController(withIdentifier: "PlayerViewController") as! PlayerViewController
+                    
+                    playerViewController.sportSelected = self.sportSelected
+                    playerViewController.playerId = String(leagueDetailsPlayers[indexPath.row].player_key!)
+                    
+                        DispatchQueue.main.async {
+                            self.navigationController?.pushViewController(playerViewController, animated: true)
+                            
+                        }
+                    
                 }
-                
-                
             }
+            
+            
+        }
         
-        
-        
+    }
+    
+    func enableLottie(lottieView: LottieAnimationView){
+        lottieView.isHidden = false
+        self.view.bringSubviewToFront(lottieView)
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopMode = .loop
+        lottieView.animationSpeed = 1
+        lottieView.play()
+    }
+    
+    func disableLottie(lottieView: LottieAnimationView){
+        lottieView.isHidden = true
+        lottieView.stop()
     }
     
 }

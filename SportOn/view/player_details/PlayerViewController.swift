@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreData
-
+import Lottie
 
 class PlayerViewController: MyBaseViewController {
     
@@ -20,37 +20,57 @@ class PlayerViewController: MyBaseViewController {
     @IBOutlet weak var starPlayer: UIButton!
     @IBOutlet weak var addToFavOutlet: UIButton!
     
+    @IBOutlet weak var lottieView: LottieAnimationView!
+    
     let db = DatabaseManager.shared
+    
+    var sportSelected : String?
+    var playerId: String?
     
     var player: ResultPlayerDetailsTennisItem?
     var playerImageData : Data?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        enableLottie()
+        
+        NetworkService.fetchPlayer(sportName: sportSelected!, playerId: playerId!) { res in
+            
+            guard let res = res, let result = res.result else {return}
+            
+            self.player = result[0]
+            
+            DispatchQueue.main.async {
 
-        playerNameLabel.text = player?.player_name
-        playerNumberLabel.text = player?.player_number
-        playerAgeLabel.text = player?.player_age
-        teamNameLabel.text = player?.team_name
+                self.playerNameLabel.text = self.player?.player_name
+                self.playerNumberLabel.text = self.player?.player_number
+                self.playerAgeLabel.text = self.player?.player_age
+                self.teamNameLabel.text = self.player?.team_name
+                        
+                self.playerImgView.kf.setImage(with: URL(string: self.player?.player_image ?? "")) { result in
+                    if case .failure = result {
+                        self.playerImgView.image = UIImage(named: "imageplaceholderplayer")
+                    }
+                }
                 
-        playerImgView.kf.setImage(with: URL(string: player?.player_image ?? "")) { result in
-            if case .failure = result {
-                self.playerImgView.image = UIImage(named: "imageplaceholderplayer")
+                if let imageData = self.playerImgView.image!.pngData() {
+                    self.playerImageData = imageData
+                } else{
+                    self.playerImageData = UIImage(named: "imageplaceholdergeneral")?.pngData()
+                }
+                
+                if UIDevice.current.userInterfaceIdiom == .pad{
+                    self.playerNameLabel.font = UIFont.systemFont(ofSize: 40)
+                    self.playerAgeLabel.font = UIFont.systemFont(ofSize: 35)
+                    self.teamNameLabel.font = UIFont.systemFont(ofSize: 35)
+                    self.playerNumberLabel.font = UIFont.systemFont(ofSize: 35)
+                }
+                
             }
         }
-        
-        if let imageData = playerImgView.image!.pngData() {
-            playerImageData = imageData
-        } else{
-            playerImageData = UIImage(named: "imageplaceholdergeneral")?.pngData()
-        }
-        
-        if UIDevice.current.userInterfaceIdiom == .pad{
-            playerNameLabel.font = UIFont.systemFont(ofSize: 40)
-            playerAgeLabel.font = UIFont.systemFont(ofSize: 35)
-            teamNameLabel.font = UIFont.systemFont(ofSize: 35)
-            playerNumberLabel.font = UIFont.systemFont(ofSize: 35)
-        }
+
+        self.disableLottie()
         
     }
     
@@ -89,5 +109,18 @@ class PlayerViewController: MyBaseViewController {
         }
     }
     
-
+    func enableLottie(){
+        lottieView.isHidden = false
+        self.view.bringSubviewToFront(lottieView)
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopMode = .loop
+        lottieView.animationSpeed = 1
+        lottieView.play()
+    }
+    
+    func disableLottie(){
+        lottieView.isHidden = true
+        lottieView.stop()
+    }
+    
 }

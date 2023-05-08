@@ -7,12 +7,16 @@
 
 import UIKit
 import Kingfisher
+import Lottie
 
 class LeaguesViewController: MyBaseViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    @IBOutlet weak var lottieView: LottieAnimationView!
+    
     
     var sportSelected: String?
     
@@ -24,6 +28,8 @@ class LeaguesViewController: MyBaseViewController, UITableViewDelegate, UITableV
         
         searchBar.delegate = self
         searchBar.showsCancelButton = true
+        
+        enableLottie()
 
         title = "Leagues"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)]
@@ -34,13 +40,21 @@ class LeaguesViewController: MyBaseViewController, UITableViewDelegate, UITableV
         
         NetworkService.fetchLeagues(sportName: sportSelected!) { [weak self] res in
                         
-            guard let res = res, let result = res.result else {return}
+            guard let res = res, let result = res.result else {
+                DispatchQueue.main.async {
+                    self?.disableLottie()
+                    self?.view.addSubview(LabelGenerator.generateLabel(text: "No Leagues Available.", frame: (self?.lottieView.frame)!))
+                }
+                return
+                
+            }
             
             self?.leagues = result
             self?.filteredLeagues = result
             
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.disableLottie()
             }
             
             
@@ -125,6 +139,18 @@ class LeaguesViewController: MyBaseViewController, UITableViewDelegate, UITableV
         searchBar.resignFirstResponder()
     }
     
+    func enableLottie(){
+        lottieView.isHidden = false
+        self.view.bringSubviewToFront(lottieView)
+        lottieView.contentMode = .scaleAspectFit
+        lottieView.loopMode = .loop
+        lottieView.animationSpeed = 1
+        lottieView.play()
+    }
     
+    func disableLottie(){
+        lottieView.isHidden = true
+        lottieView.stop()
+    }
     
 }
