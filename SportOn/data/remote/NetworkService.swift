@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkService{
+class NetworkService: NetworkServiceProtocol{
     
     // MARK: Generic fetching data method
 
@@ -30,12 +30,12 @@ class NetworkService{
     
     // MARK: fetching all Leagues
 
-    static func fetchLeagues(sportName: String ,completionHandler: @escaping (ResultLeagues?)->Void) {
+    static func fetchLeagues(sportName: String ,completionHandler: @escaping (AllLeaguesResult?)->Void) {
         
         fetchData(met: "Leagues", sportName: sportName, additionalParam: [:]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeagues.self, from: data)
+                let res = try JSONDecoder().decode(AllLeaguesResult.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -49,7 +49,7 @@ class NetworkService{
     
     // MARK: fetching upcoming for football/basketball/cricket
 
-    static func fetchResultUpcoming(sportName: String, leagueID: String ,completionHandler: @escaping (ResultLeagueDetailsUpcoming?)->Void) {
+    static func fetchResultUpcoming(sportName: String, leagueID: String ,completionHandler: @escaping (UpcomingMatchesResultForFootballBasketballCricket?)->Void) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -63,7 +63,7 @@ class NetworkService{
         fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":fromDateString, "to":toDateString, "leagueId":leagueID]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeagueDetailsUpcoming.self, from: data)
+                let res = try JSONDecoder().decode(UpcomingMatchesResultForFootballBasketballCricket.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -76,7 +76,7 @@ class NetworkService{
     
     // MARK: fetching upcoming for tennis
 
-    static func fetchResultUpcomingTennis(sportName: String, leagueID: String ,completionHandler: @escaping (ResultLeagueDetailsUpcomingTennis?)->Void) {
+    static func fetchResultUpcomingTennis(sportName: String, leagueID: String ,completionHandler: @escaping (UpcomingMatchesResultForTennis?)->Void) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -90,7 +90,7 @@ class NetworkService{
         fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":fromDateString, "to":toDateString, "leagueId":leagueID ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeagueDetailsUpcomingTennis.self, from: data)
+                let res = try JSONDecoder().decode(UpcomingMatchesResultForTennis.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -103,12 +103,12 @@ class NetworkService{
     
     // MARK: fetching live results for football/basketball/cricket
 
-    static func fetchResultLatest(sportName: String, leagueId: String ,completionHandler: @escaping (ResultLeagueDetailsLatest?)->Void) {
+    static func fetchResultLatest(sportName: String, leagueId: String ,completionHandler: @escaping (LiveMatchesResultForFootballBasketballCricket?)->Void) {
 
         fetchData(met: "Livescore", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeagueDetailsLatest.self, from: data)
+                let res = try JSONDecoder().decode(LiveMatchesResultForFootballBasketballCricket.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -121,13 +121,13 @@ class NetworkService{
     
     // MARK: fetching live results for tennis
 
-    static func fetchResultLatestTennis(sportName: String, leagueId: String ,completionHandler: @escaping (ResultLeagueDetailsLatestTennis?)->Void) {
+    static func fetchResultLatestTennis(sportName: String, leagueId: String ,completionHandler: @escaping (LiveMatchesResultForTennis?)->Void) {
                 
         
         fetchData(met: "Livescore", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeagueDetailsLatestTennis.self, from: data)
+                let res = try JSONDecoder().decode(LiveMatchesResultForTennis.self, from: data)
                 
                 completionHandler(res)
             } catch let error {
@@ -141,12 +141,12 @@ class NetworkService{
     
     // MARK: fetching all teams for a specific league for football/basketball/cricket
 
-    static func fetchTeams(sportName: String, leagueId: String ,completionHandler: @escaping (ResultLeagueTeams?)->Void) {
+    static func fetchTeams(sportName: String, leagueId: String ,completionHandler: @escaping (AllTeamsResult?)->Void) {
 
         fetchData(met: "Teams", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeagueTeams.self, from: data)
+                let res = try JSONDecoder().decode(AllTeamsResult.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -159,12 +159,12 @@ class NetworkService{
     
     // MARK: fetching all players for a specific league for tennis
 
-    static func fetchPlayers(sportName: String, leagueId: String ,completionHandler: @escaping (ResultLeaguePlayersTennis?)->Void) {
+    static func fetchPlayers(sportName: String, leagueId: String ,completionHandler: @escaping (AllPlayersResult?)->Void) {
 
         fetchData(met: "Players", sportName: sportName, additionalParam: ["leagueId":leagueId ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultLeaguePlayersTennis.self, from: data)
+                let res = try JSONDecoder().decode(AllPlayersResult.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -177,12 +177,12 @@ class NetworkService{
     
     // MARK: fetching team details for football/basketball/cricket
 
-    static func fetchTeam(sportName: String, teamId: String ,completionHandler: @escaping (ResultTeamDetails?)->Void) {
+    static func fetchTeam(sportName: String, teamId: String ,completionHandler: @escaping (TeamDetailsResult?)->Void) {
         
         fetchData(met: "Teams", sportName: sportName, additionalParam: ["teamId":teamId ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultTeamDetails.self, from: data)
+                let res = try JSONDecoder().decode(TeamDetailsResult.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)
@@ -195,12 +195,12 @@ class NetworkService{
     
     // MARK: fetching player details for football/basketball/cricket
 
-    static func fetchPlayer(sportName: String, playerId: String ,completionHandler: @escaping (ResultPlayerDetailsTennis?)->Void) {
+    static func fetchPlayer(sportName: String, playerId: String ,completionHandler: @escaping (PlayerDetailsResult?)->Void) {
         
         fetchData(met: "Players", sportName: sportName, additionalParam: ["playerId":playerId ]) { data, _, error in
             do{
                 guard let data = data else {return}
-                let res = try JSONDecoder().decode(ResultPlayerDetailsTennis.self, from: data)
+                let res = try JSONDecoder().decode(PlayerDetailsResult.self, from: data)
                 completionHandler(res)
             } catch let error {
                 completionHandler(nil)

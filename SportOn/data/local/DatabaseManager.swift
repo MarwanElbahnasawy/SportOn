@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class DatabaseManager {
+class DatabaseManager: DatabaseManagerProtocol {
     static let shared = DatabaseManager()
     
     var context: NSManagedObjectContext!

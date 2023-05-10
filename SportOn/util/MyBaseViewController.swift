@@ -9,7 +9,7 @@ import UIKit
 import Toast_Swift
 import SnackBar_swift
 
-class MyBaseViewController: UIViewController {
+class MyBaseViewController: UIViewController, NetworkConnectivityObserver {
     
     private var snackBar : AppSnackBar?
     static var isNetworkAvailable: Bool!
@@ -54,6 +54,10 @@ class MyBaseViewController: UIViewController {
         snackBar?.dismiss()
     }
     
+    static func getIsNetworkAvailable() -> Bool {
+        return isNetworkAvailable
+    }
+    
 }
 
 class AppSnackBar: SnackBar {
@@ -73,4 +77,5 @@ class InsertDeleteSnackBar: SnackBar{
         //style.textColor = .black
         return style
     }
+    
 }
