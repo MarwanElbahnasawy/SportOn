@@ -193,7 +193,7 @@ class NetworkService: NetworkServiceProtocol{
         
     }
     
-    // MARK: fetching player details for football/basketball/cricket
+    // MARK: fetching player details for tennis
 
     static func fetchPlayer(sportName: String, playerId: String ,completionHandler: @escaping (PlayerDetailsResult?)->Void) {
         

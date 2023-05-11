@@ -33,8 +33,10 @@
 		177227502A0C12B600B3556F /* PlayerDetailsPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772274F2A0C12B600B3556F /* PlayerDetailsPresenterProtocol.swift */; };
 		177227522A0C187300B3556F /* FavoritesViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177227512A0C187300B3556F /* FavoritesViewProtocol.swift */; };
 		177227562A0C189300B3556F /* FavoritesPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177227552A0C189300B3556F /* FavoritesPresenterProtocol.swift */; };
-		177227602A0C210800B3556F /* SportOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772275F2A0C210800B3556F /* SportOnTests.swift */; };
 		177227672A0C214A00B3556F /* MockNetworkServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177227662A0C214A00B3556F /* MockNetworkServiceTest.swift */; };
+		1772276D2A0C324600B3556F /* MockNetworkServiceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1772276C2A0C324600B3556F /* MockNetworkServiceData.swift */; };
+		177227712A0C432000B3556F /* MockNetworkServiceMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177227702A0C432000B3556F /* MockNetworkServiceMethods.swift */; };
+		177227752A0C566E00B3556F /* NetworkServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177227742A0C566E00B3556F /* NetworkServiceTest.swift */; };
 		1780E8122A05334500525E60 /* PlayerItemDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1780E8112A05334500525E60 /* PlayerItemDB.swift */; };
 		1780E8142A054DD100525E60 /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1780E8132A054DD100525E60 /* FavoritesTableViewCell.swift */; };
 		17823C612A002A01009A8ED3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17823C602A002A01009A8ED3 /* AppDelegate.swift */; };
@@ -117,8 +119,10 @@
 		177227512A0C187300B3556F /* FavoritesViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewProtocol.swift; sourceTree = "<group>"; };
 		177227552A0C189300B3556F /* FavoritesPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPresenterProtocol.swift; sourceTree = "<group>"; };
 		1772275D2A0C210800B3556F /* SportOnTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportOnTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1772275F2A0C210800B3556F /* SportOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportOnTests.swift; sourceTree = "<group>"; };
 		177227662A0C214A00B3556F /* MockNetworkServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkServiceTest.swift; sourceTree = "<group>"; };
+		1772276C2A0C324600B3556F /* MockNetworkServiceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkServiceData.swift; sourceTree = "<group>"; };
+		177227702A0C432000B3556F /* MockNetworkServiceMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkServiceMethods.swift; sourceTree = "<group>"; };
+		177227742A0C566E00B3556F /* NetworkServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTest.swift; sourceTree = "<group>"; };
 		1780E8112A05334500525E60 /* PlayerItemDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerItemDB.swift; sourceTree = "<group>"; };
 		1780E8132A054DD100525E60 /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
 		17823C5D2A002A01009A8ED3 /* SportOn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportOn.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,9 +517,37 @@
 			isa = PBXGroup;
 			children = (
 				177227662A0C214A00B3556F /* MockNetworkServiceTest.swift */,
-				1772275F2A0C210800B3556F /* SportOnTests.swift */,
+				1772276C2A0C324600B3556F /* MockNetworkServiceData.swift */,
+				177227702A0C432000B3556F /* MockNetworkServiceMethods.swift */,
+				177227742A0C566E00B3556F /* NetworkServiceTest.swift */,
 			);
 			path = SportOnTests;
+			sourceTree = "<group>";
+		};
+		177227762A0C56E200B3556F /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				179639852A0423480049ED9A /* DatabaseItem.swift */,
+				1772274B2A0C04E400B3556F /* DatabaseManagerProtocol.swift */,
+			);
+			path = protocols;
+			sourceTree = "<group>";
+		};
+		177227772A0C56EE00B3556F /* models */ = {
+			isa = PBXGroup;
+			children = (
+				179639872A0426650049ED9A /* TeamItemDB.swift */,
+				1780E8112A05334500525E60 /* PlayerItemDB.swift */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		177227782A0C56FF00B3556F /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				177227492A0C043200B3556F /* NetworkServiceProtocol.swift */,
+			);
+			path = protocols;
 			sourceTree = "<group>";
 		};
 		17823C542A002A01009A8ED3 = {
@@ -626,10 +658,8 @@
 			children = (
 				17823C692A002A01009A8ED3 /* SportOn.xcdatamodeld */,
 				179639832A0414D30049ED9A /* DatabaseManager.swift */,
-				179639852A0423480049ED9A /* DatabaseItem.swift */,
-				179639872A0426650049ED9A /* TeamItemDB.swift */,
-				1780E8112A05334500525E60 /* PlayerItemDB.swift */,
-				1772274B2A0C04E400B3556F /* DatabaseManagerProtocol.swift */,
+				177227762A0C56E200B3556F /* protocols */,
+				177227772A0C56EE00B3556F /* models */,
 			);
 			path = local;
 			sourceTree = "<group>";
@@ -638,7 +668,7 @@
 			isa = PBXGroup;
 			children = (
 				17A942E02A0197A400A9EF64 /* NetworkService.swift */,
-				177227492A0C043200B3556F /* NetworkServiceProtocol.swift */,
+				177227782A0C56FF00B3556F /* protocols */,
 			);
 			path = remote;
 			sourceTree = "<group>";
@@ -846,8 +876,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1772276D2A0C324600B3556F /* MockNetworkServiceData.swift in Sources */,
+				177227712A0C432000B3556F /* MockNetworkServiceMethods.swift in Sources */,
+				177227752A0C566E00B3556F /* NetworkServiceTest.swift in Sources */,
 				177227672A0C214A00B3556F /* MockNetworkServiceTest.swift in Sources */,
-				177227602A0C210800B3556F /* SportOnTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1118,7 +1150,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CV64V222GG;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SportOn/Info.plist;
+				INFOPLIST_FILE = SportOn/resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1148,7 +1180,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CV64V222GG;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SportOn/Info.plist;
+				INFOPLIST_FILE = SportOn/resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
