@@ -51,16 +51,7 @@ class NetworkService: NetworkServiceProtocol{
 
     static func fetchResultUpcoming(sportName: String, leagueID: String ,completionHandler: @escaping (UpcomingMatchesResultForFootballBasketballCricket?)->Void) {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let currentDate = Date()
-        let fromDateString = dateFormatter.string(from: currentDate)
-
-        let toDate = Calendar.current.date(byAdding: .day, value: 14, to: currentDate)!
-        let toDateString = dateFormatter.string(from: toDate)
-        
-        fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":fromDateString, "to":toDateString, "leagueId":leagueID]) { data, _, error in
+        fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":DateUtility.getFromDateString(date: Date()), "to":DateUtility.getToDateString(date: Date(), days: 14), "leagueId":leagueID]) { data, _, error in
             do{
                 guard let data = data else {return}
                 let res = try JSONDecoder().decode(UpcomingMatchesResultForFootballBasketballCricket.self, from: data)
@@ -77,17 +68,8 @@ class NetworkService: NetworkServiceProtocol{
     // MARK: fetching upcoming for tennis
 
     static func fetchResultUpcomingTennis(sportName: String, leagueID: String ,completionHandler: @escaping (UpcomingMatchesResultForTennis?)->Void) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let currentDate = Date()
-        let fromDateString = dateFormatter.string(from: currentDate)
 
-        let toDate = Calendar.current.date(byAdding: .day, value: 14, to: currentDate)!
-        let toDateString = dateFormatter.string(from: toDate)
-
-        fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":fromDateString, "to":toDateString, "leagueId":leagueID ]) { data, _, error in
+        fetchData(met: "Fixtures", sportName: sportName, additionalParam: ["from":DateUtility.getFromDateString(date: Date()), "to":DateUtility.getToDateString(date: Date(), days: 14), "leagueId":leagueID ]) { data, _, error in
             do{
                 guard let data = data else {return}
                 let res = try JSONDecoder().decode(UpcomingMatchesResultForTennis.self, from: data)

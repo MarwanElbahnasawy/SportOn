@@ -11,11 +11,11 @@ class PlayerDetailsPresenter: PlayerDetailsPresenterProtocol{
    
     private let view: PlayerDetailsViewProtocol
     private let networkService: NetworkServiceProtocol.Type
-    private let networkConnectivityObserver : NetworkConnectivityObserver.Type
+    private let networkConnectivityObserver : NetworkConnectivityObserverProtocol.Type
     private let sportSelected: String
     private let db: DatabaseManagerProtocol
     
-    init(view: PlayerDetailsViewProtocol, networkService: NetworkServiceProtocol.Type,  networkConnectivityObserver: NetworkConnectivityObserver.Type, sportSelected: String, db: DatabaseManagerProtocol) {
+    init(view: PlayerDetailsViewProtocol, networkService: NetworkServiceProtocol.Type,  networkConnectivityObserver: NetworkConnectivityObserverProtocol.Type, sportSelected: String, db: DatabaseManagerProtocol) {
         self.view = view
         self.networkService = networkService
         self.networkConnectivityObserver = networkConnectivityObserver

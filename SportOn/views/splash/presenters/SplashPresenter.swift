@@ -10,9 +10,9 @@ import Foundation
 class SplashPresenter: SplashPresenterProtocol{
     
     private let view: SplashViewProtocol
-    private let db: DatabaseManager
+    private let db: DatabaseManagerProtocol
     
-    init(view: SplashViewProtocol, db: DatabaseManager) {
+    init(view: SplashViewProtocol, db: DatabaseManagerProtocol) {
         self.view = view
         self.db = db
     }

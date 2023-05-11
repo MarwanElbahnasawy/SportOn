@@ -10,9 +10,9 @@ import Foundation
 class OnboardingPresenter: OnboardingPresenterProtocol{
     
     private let view: OnboardingViewProtocol
-    private let db: DatabaseManager
+    private let db: DatabaseManagerProtocol
     
-    init(view: OnboardingViewProtocol, db: DatabaseManager) {
+    init(view: OnboardingViewProtocol, db: DatabaseManagerProtocol) {
         self.view = view
         self.db = db
     }

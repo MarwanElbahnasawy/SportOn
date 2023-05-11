@@ -9,7 +9,7 @@ import UIKit
 import Toast_Swift
 import SnackBar_swift
 
-class MyBaseViewController: UIViewController, NetworkConnectivityObserver {
+class MyBaseViewController: UIViewController, NetworkConnectivityObserverProtocol {
     
     private var snackBar : AppSnackBar?
     static var isNetworkAvailable: Bool!

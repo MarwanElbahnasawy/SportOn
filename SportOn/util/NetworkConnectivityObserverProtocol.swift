@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol NetworkConnectivityObserver {
+protocol NetworkConnectivityObserverProtocol {
     static func getIsNetworkAvailable() -> Bool
 }

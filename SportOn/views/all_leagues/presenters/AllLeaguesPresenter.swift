@@ -10,10 +10,10 @@ import Foundation
 class AllLeaguesPresenter: AllLeaguesPresenterProtocol{
    
     private let view: AllLeaguesViewProtocol
-    private let networkService: NetworkService.Type
-    private let networkConnectivityObserver : NetworkConnectivityObserver.Type
+    private let networkService: NetworkServiceProtocol.Type
+    private let networkConnectivityObserver : NetworkConnectivityObserverProtocol.Type
     
-    init(view: AllLeaguesViewProtocol, networkService: NetworkService.Type,  networkConnectivityObserver: NetworkConnectivityObserver.Type) {
+    init(view: AllLeaguesViewProtocol, networkService: NetworkServiceProtocol.Type,  networkConnectivityObserver: NetworkConnectivityObserverProtocol.Type) {
         self.view = view
         self.networkService = networkService
         self.networkConnectivityObserver = networkConnectivityObserver

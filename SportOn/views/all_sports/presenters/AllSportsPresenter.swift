@@ -10,10 +10,10 @@ import Foundation
 class AllSportsPresenter: AllSportsPresenterProtocol{
     
     private let view: AllSportsViewProtocol
-    private let db: DatabaseManager
-    private let networkConnectivityObserver: NetworkConnectivityObserver.Type
+    private let db: DatabaseManagerProtocol
+    private let networkConnectivityObserver: NetworkConnectivityObserverProtocol.Type
     
-    init(view: AllSportsViewProtocol, db: DatabaseManager, networkConnectivityObserver: NetworkConnectivityObserver.Type) {
+    init(view: AllSportsViewProtocol, db: DatabaseManagerProtocol, networkConnectivityObserver: NetworkConnectivityObserverProtocol.Type) {
         self.view = view
         self.db = db
         self.networkConnectivityObserver = networkConnectivityObserver

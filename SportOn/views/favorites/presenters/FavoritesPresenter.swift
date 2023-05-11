@@ -12,10 +12,10 @@ class FavoritesPreesenter: FavoritesPresenterProtocol{
     
     private let view: FavoritesViewProtocol
     private let networkService: NetworkServiceProtocol.Type
-    private let networkConnectivityObserver : NetworkConnectivityObserver.Type
+    private let networkConnectivityObserver : NetworkConnectivityObserverProtocol.Type
     private let db: DatabaseManagerProtocol
     
-    init(view: FavoritesViewProtocol, networkService: NetworkServiceProtocol.Type,  networkConnectivityObserver: NetworkConnectivityObserver.Type, db: DatabaseManagerProtocol) {
+    init(view: FavoritesViewProtocol, networkService: NetworkServiceProtocol.Type,  networkConnectivityObserver: NetworkConnectivityObserverProtocol.Type, db: DatabaseManagerProtocol) {
         self.view = view
         self.networkService = networkService
         self.networkConnectivityObserver = networkConnectivityObserver
