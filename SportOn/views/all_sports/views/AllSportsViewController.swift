@@ -18,7 +18,7 @@ class AllSportsViewController: MyBaseViewController, AllSportsViewProtocol, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Sports"
+        navigationController?.navigationBar.topItem?.title = "Sports"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)]
         
         if UIDevice.current.userInterfaceIdiom == .pad{

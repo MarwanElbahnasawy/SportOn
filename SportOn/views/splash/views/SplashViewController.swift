@@ -8,6 +8,7 @@
 import UIKit
 import Lottie
 
+
 class SplashViewController: MyBaseViewController, SplashViewProtocol {
     
     private lazy var presenter: SplashPresenterProtocol = {

@@ -21,7 +21,7 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Favorites"
+        navigationController?.navigationBar.topItem?.title = "Favorites"
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)]
         
         if UIDevice.current.userInterfaceIdiom == .pad{
@@ -143,6 +143,7 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                     
                     self.presenter.deleteTeam(teamKey: currentTeam.team_key!) {
                         InsertDeleteSnackBar.make(in: self.view, message: "Deleted Successfully.", duration: .custom(1)).show()
+                        print("deleteeddededededded")
                     }
                 })
                 

@@ -25,7 +25,7 @@ class AllLeaguesViewController: MyBaseViewController, UITableViewDelegate, UITab
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
         searchBar.delegate = self
         searchBar.showsCancelButton = true
         
@@ -38,7 +38,7 @@ class AllLeaguesViewController: MyBaseViewController, UITableViewDelegate, UITab
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]
         }
         
-        presenter.fetchLeagues(sportName: sportSelected!)
+        presenter.fetchLeagues(sportName: sportSelected ?? "football")
         
     }
     
@@ -78,7 +78,7 @@ class AllLeaguesViewController: MyBaseViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UIScreen.main.bounds.height * 0.15
+        return UIScreen.main.bounds.height * 0.17
     }
     
     

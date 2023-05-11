@@ -59,6 +59,7 @@ class FavoritesPreesenter: FavoritesPresenterProtocol{
             arrayTeams.removeAll()
             arrayTeams = db.getAllTeams().map {$0 as! TeamItemDB}
             view.reloadTableView()
+            completionHandler()
         }
     }
     
@@ -67,6 +68,7 @@ class FavoritesPreesenter: FavoritesPresenterProtocol{
             arrayPlayers.removeAll()
             arrayPlayers = self.db.getAllPlayers().map {$0 as! PlayerItemDB}
             view.reloadTableView()
+            completionHandler()
         }
     }
     
