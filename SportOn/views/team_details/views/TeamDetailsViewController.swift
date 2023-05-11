@@ -90,7 +90,7 @@ class TeamDetailsViewController: MyBaseViewController, UITableViewDelegate, UITa
             let team = presenter.getTeam()
             let teamItemDB = TeamItemDB(team_name: team?.team_name ?? "", team_logo: teamLogoData, team_logo_string: team?.team_logo ?? "", team_key: team?.team_key, sportSelected: sportSelected)
             presenter.insertTeam(teamItemDB: teamItemDB) {
-                InsertDeleteSnackBar.make(in: self.view, message: "Inserted Successfully.", duration: .custom(1)).show()
+                InsertDeleteSnackBar.make(in: self.view, message: "Added Successfully.", duration: .custom(1)).show()
             }
                 starTeam.setImage(UIImage(named: "goldenstar"), for: .normal)
         }

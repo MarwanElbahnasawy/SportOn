@@ -71,7 +71,7 @@ class PlayerDetailsViewController: MyBaseViewController, PlayerDetailsViewProtoc
             let player = presenter.getPlayer()
             let playerItemDB = PlayerItemDB(player_key: player?.player_key, player_name: player?.team_name, player_image: playerImageData, player_image_string: player?.player_image ?? "")
             presenter.insertPlayer(playerItemDB: playerItemDB) {
-                InsertDeleteSnackBar.make(in: self.view, message: "Inserted Successfully.", duration: .custom(1)).show()
+                InsertDeleteSnackBar.make(in: self.view, message: "Added Successfully.", duration: .custom(1)).show()
             }
             
             starPlayer.setImage(UIImage(named: "goldenstar"), for: .normal)
