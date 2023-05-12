@@ -94,6 +94,7 @@ class AllLeaguesViewController: MyBaseViewController, UITableViewDelegate, UITab
     
     func enableLottie(){
         DispatchQueue.main.async {
+            self.lottieView.backgroundColor = UIColor(named: "myBackgroundColor")
             self.lottieView.isHidden = false
             self.view.bringSubviewToFront(self.lottieView)
             self.lottieView.contentMode = .scaleAspectFit

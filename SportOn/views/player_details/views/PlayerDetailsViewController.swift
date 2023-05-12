@@ -90,6 +90,7 @@ class PlayerDetailsViewController: MyBaseViewController, PlayerDetailsViewProtoc
     }
     
     func enableLottie(){
+        lottieView.backgroundColor = UIColor(named: "myBackgroundColor")
         lottieView.isHidden = false
         self.view.bringSubviewToFront(lottieView)
         lottieView.contentMode = .scaleAspectFit
@@ -122,7 +123,7 @@ class PlayerDetailsViewController: MyBaseViewController, PlayerDetailsViewProtoc
             if let imageData = self.playerImgView.image!.pngData() {
                 self.playerImageData = imageData
             } else{
-                self.playerImageData = UIImage(named: "imageplaceholdergeneral")?.pngData()
+                self.playerImageData = UIImage(named: "imageplaceholderplayer")?.pngData()
             }
             
             if UIDevice.current.userInterfaceIdiom == .pad{

@@ -230,6 +230,7 @@ class LeagueDetailsViewController: MyBaseViewController, UICollectionViewDelegat
             return
         }
         DispatchQueue.main.async {
+            lottieView.backgroundColor = UIColor(named: "myBackgroundColor")
             lottieView.isHidden = false
             self.view.bringSubviewToFront(lottieView)
             lottieView.contentMode = .scaleAspectFit

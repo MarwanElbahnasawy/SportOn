@@ -25,12 +25,10 @@ class LeagueDetailsUpcomingCollectionViewCell: UICollectionViewCell {
         
         imgViewHome.kf.setImage(with: URL(string: current.home_team_logo ?? "")) { result in
             if case .failure = result {
-                if sportSelected == "football"{
-                    self.imgViewHome.image = UIImage(named: "imageplaceholderteamfootball")
-                } else if sportSelected == "basketball" {
+                if sportSelected == "basketball"{
                     self.imgViewHome.image = UIImage(named: "imageplaceholderteambasketball")
                 } else{
-                    self.imgViewHome.image = UIImage(named: "imageplaceholderteam")
+                    self.imgViewHome.image = UIImage(named: "imageplaceholderteamfootball")
                 }
                 
             }
@@ -39,12 +37,10 @@ class LeagueDetailsUpcomingCollectionViewCell: UICollectionViewCell {
         
         imgViewAway.kf.setImage(with: URL(string: current.away_team_logo ?? "")) { result in
             if case .failure = result {
-                if sportSelected == "football"{
-                    self.imgViewAway.image = UIImage(named: "imageplaceholderteamfootball")
-                } else if sportSelected == "basketball" {
+                if sportSelected == "basketball"{
                     self.imgViewAway.image = UIImage(named: "imageplaceholderteambasketball")
                 } else{
-                    self.imgViewAway.image = UIImage(named: "imageplaceholderteam")
+                    self.imgViewAway.image = UIImage(named: "imageplaceholderteamfootball")
                 }
                 
             }

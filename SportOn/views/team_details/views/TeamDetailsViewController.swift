@@ -108,6 +108,7 @@ class TeamDetailsViewController: MyBaseViewController, UITableViewDelegate, UITa
     }
     
     func enableLottie(){
+        lottieView.backgroundColor = UIColor(named: "myBackgroundColor")
         lottieView.isHidden = false
         self.view.bringSubviewToFront(lottieView)
         lottieView.contentMode = .scaleAspectFit
@@ -140,12 +141,10 @@ class TeamDetailsViewController: MyBaseViewController, UITableViewDelegate, UITa
                     
             self.teamImgView.kf.setImage(with: URL(string: team.team_logo ?? "")) { result in
                 if case .failure = result {
-                    if self.sportSelected == "football"{
-                        self.teamImgView.image = UIImage(named: "imageplaceholderteamfootball")
-                    } else if self.sportSelected == "basketball"{
+                    if self.sportSelected == "basketball"{
                         self.teamImgView.image = UIImage(named: "imageplaceholderteambasketball")
-                    } else{
-                        self.teamImgView.image = UIImage(named: "imageplaceholdergeneral")
+                    }  else{
+                        self.teamImgView.image = UIImage(named: "imageplaceholderteamfootball")
                     }
                     
                 }
@@ -161,12 +160,10 @@ class TeamDetailsViewController: MyBaseViewController, UITableViewDelegate, UITa
                 self.teamLogoData = imageData
             } else{
                 
-                if self.sportSelected == "football"{
-                    self.teamLogoData = UIImage(named: "imageplaceholderteamfootball")?.pngData()
-                } else if self.sportSelected == "basketball" {
-                    self.teamLogoData = UIImage(named: "imageplaceholderteambasketball")?.pngData()
-                } else{
-                    self.teamLogoData = UIImage(named: "imageplaceholdergeneral")?.pngData()
+                if self.sportSelected == "basketball"{
+                    self.teamImgView.image = UIImage(named: "imageplaceholderteambasketball")
+                }  else{
+                    self.teamImgView.image = UIImage(named: "imageplaceholderteamfootball")
                 }
             }
             

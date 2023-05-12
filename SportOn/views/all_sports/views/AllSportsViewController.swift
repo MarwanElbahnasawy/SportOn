@@ -18,13 +18,16 @@ class AllSportsViewController: MyBaseViewController, AllSportsViewProtocol, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.topItem?.title = "Sports"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 25)]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40)]
         
         if UIDevice.current.userInterfaceIdiom == .pad{
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]
         }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -13,12 +13,10 @@ class LeagueDetailsTeamsOrPlayersCollectionViewCell: UICollectionViewCell {
     func configureCellTeam(current: AllTeamsItem, sportSelected: String){
         imgViewTeams.kf.setImage(with: URL(string: current.team_logo ?? "")) { result in
             if case .failure = result {
-                if sportSelected == "football"{
-                    self.imgViewTeams.image = UIImage(named: "imageplaceholderteamfootball")
-                } else if sportSelected == "basketball" {
+                if sportSelected == "basketball"{
                     self.imgViewTeams.image = UIImage(named: "imageplaceholderteambasketball")
                 } else{
-                    self.imgViewTeams.image = UIImage(named: "imageplaceholderteam")
+                    self.imgViewTeams.image = UIImage(named: "imageplaceholderteamfootball")
                 }
                 
             }
