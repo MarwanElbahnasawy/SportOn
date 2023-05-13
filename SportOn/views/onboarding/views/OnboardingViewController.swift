@@ -25,7 +25,7 @@ class OnboardingViewController: MyBaseViewController, UICollectionViewDelegate, 
         super.viewDidLoad()
         
         if UIDevice.current.userInterfaceIdiom == .pad{
-            getStartedOutlet.titleLabel?.font = UIFont.systemFont(ofSize: 44, weight: .bold)
+            getStartedOutlet.titleLabel?.font = UIFont.systemFont(ofSize: 38, weight: .bold)
         }
     }
     

@@ -40,7 +40,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol{
             NetworkService.fetchResultUpcoming(sportName: sportSelected, leagueID: String(leagueIDSelected)) { [weak self] res in
                 guard let res = res, let result = res.result else {
                     self?.view.disableLottie(lottieViewNumber: 1)
-                    self?.view.addSubview(text: "No Upcoming Matches Available.", lottieViewNumber: 1)
+                    self?.view.addSubview(text: "No Upcoming Matches Currently Available", lottieViewNumber: 1)
                     return
                     
                 }
@@ -55,7 +55,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol{
             NetworkService.fetchResultLatest(sportName: sportSelected, leagueId: String(leagueIDSelected)) { [weak self] res in
                 guard let res = res, let result = res.result else {
                     self?.view.disableLottie(lottieViewNumber: 2)
-                    self?.view.addSubview(text: "No Live Matches Available.", lottieViewNumber: 2)
+                    self?.view.addSubview(text: "No Live Matches Currently Available", lottieViewNumber: 2)
                     return
                 }
                 
@@ -69,7 +69,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol{
             NetworkService.fetchTeams(sportName: sportSelected, leagueId: String(leagueIDSelected)) { [weak self] res in
                 guard let res = res, let result = res.result else {
                     self?.view.disableLottie(lottieViewNumber: 3)
-                    self?.view.addSubview(text: "No Teams Available.", lottieViewNumber: 3)
+                    self?.view.addSubview(text: "No Teams Currently Available", lottieViewNumber: 3)
                     return
                 }
                 
@@ -88,7 +88,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol{
             NetworkService.fetchResultUpcomingTennis(sportName: sportSelected, leagueID: String(leagueIDSelected)) { [weak self] res in
                 guard let res = res, let result = res.result else {
                     self?.view.disableLottie(lottieViewNumber: 1)
-                    self?.view.addSubview(text: "No Upcoming Matches Available.", lottieViewNumber: 1)
+                    self?.view.addSubview(text: "No Upcoming Matches Currently Available", lottieViewNumber: 1)
                     return
                 }
                 
@@ -101,7 +101,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol{
             NetworkService.fetchResultLatestTennis(sportName: sportSelected, leagueId: String(leagueIDSelected)) { [weak self] res in
                 guard let res = res, let result = res.result else {
                     self?.view.disableLottie(lottieViewNumber: 2)
-                    self?.view.addSubview(text: "No Live Matches Available.", lottieViewNumber: 2)
+                    self?.view.addSubview(text: "No Live Matches Currently Available", lottieViewNumber: 2)
                     return
                     
                 }
@@ -115,7 +115,7 @@ class LeagueDetailsPresenter: LeagueDetailsPresenterProtocol{
             NetworkService.fetchPlayers(sportName: sportSelected, leagueId: String(leagueIDSelected)) { [weak self] res in
                 guard let res = res, let result = res.result else {
                     self?.view.disableLottie(lottieViewNumber: 3)
-                    self?.view.addSubview(text: "No Players Available.", lottieViewNumber: 3)
+                    self?.view.addSubview(text: "No Players Currently Available", lottieViewNumber: 3)
                     return
                     
                 }

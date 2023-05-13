@@ -962,8 +962,9 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cIM-yw-odx">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tabBarAppearance key="standardAppearance"/>
+                        <color key="backgroundColor" name="myBackgroundColor"/>
+                        <color key="selectedImageTintColor" name="myTabBarColor"/>
+                        <tabBarAppearance key="standardAppearance" backgroundImageContentMode="scaleAspectFit"/>
                     </tabBar>
                     <connections>
                         <segue destination="apb-8X-deI" kind="relationship" relationship="viewControllers" id="ZF3-G6-TBb"/>
@@ -978,7 +979,7 @@
         <scene sceneID="NCK-l1-bee">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="apb-8X-deI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="sportscourt.fill" catalog="system" id="LMK-r8-8Ep"/>
+                    <tabBarItem key="tabBarItem" title="" image="scoreboardTabBar" id="LMK-r8-8Ep"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hif-4k-hvh">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -1116,7 +1117,7 @@
         <scene sceneID="3Fb-Eu-nIL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GVp-IX-yh3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="bookmark.fill" catalog="system" id="1fs-Ii-QVs"/>
+                    <tabBarItem key="tabBarItem" title="" image="favoritesTabBar" id="1fs-Ii-QVs"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FtE-So-BTO">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -1136,12 +1137,15 @@
         <segue reference="g0o-Cm-chD"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="bookmark.fill" catalog="system" width="110" height="128"/>
         <image name="emptystar" width="519" height="481"/>
-        <image name="sportscourt.fill" catalog="system" width="128" height="83"/>
+        <image name="favoritesTabBar" width="38" height="38"/>
+        <image name="scoreboardTabBar" width="38" height="38"/>
         <image name="vsimage" width="500" height="500"/>
         <namedColor name="myBackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="myTabBarColor">
+            <color red="0.14117647058823529" green="0.14509803921568626" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

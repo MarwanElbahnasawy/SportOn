@@ -22,7 +22,7 @@ class SportsCollectionViewCell: UICollectionViewCell {
         
         if UIDevice.current.userInterfaceIdiom == .pad{
             
-            titleLabel.font = UIFont.systemFont(ofSize: 46)
+            titleLabel.font = UIFont.systemFont(ofSize: 38)
             
             titleLabel.removeConstraint(oldConstraintTitleTop)
             
@@ -32,7 +32,7 @@ class SportsCollectionViewCell: UICollectionViewCell {
                 relatedBy: .equal,
                 toItem: imgView,
                 attribute: .bottom,
-                multiplier: 0.8,
+                multiplier: 0.95,
                 constant: 0
             )
             

@@ -8,7 +8,7 @@
 import UIKit
 
 class LabelGenerator{
-    static func generateLabel(text: String, frame: CGRect, color: UIColor = .systemBlue) -> UILabel{
+    static func generateLabel(text: String, frame: CGRect, color: UIColor = .gray) -> UILabel{
         let label = UILabel(frame: frame)
         var size: CGFloat = 16
         if UIDevice.current.userInterfaceIdiom == .pad{

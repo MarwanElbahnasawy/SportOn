@@ -23,7 +23,7 @@ class AllSportsViewController: MyBaseViewController, AllSportsViewProtocol, UICo
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.topItem?.title = "Sports"
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 40)]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 34)]
         
         if UIDevice.current.userInterfaceIdiom == .pad{
             navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 44)]

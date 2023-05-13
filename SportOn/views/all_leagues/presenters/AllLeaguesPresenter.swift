@@ -27,7 +27,7 @@ class AllLeaguesPresenter: AllLeaguesPresenterProtocol{
                         
             guard let res = res, let result = res.result else {
                 self?.view.disableLottie()
-                self?.view.addSubview(text: "No Leagues Available.")
+                self?.view.addSubview(text: "No Leagues Currently Available")
                 return
             }
             
