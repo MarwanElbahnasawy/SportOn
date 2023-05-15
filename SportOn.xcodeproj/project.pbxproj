@@ -72,6 +72,7 @@
 		17AAAB592A04541200B02370 /* TeamDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AAAB582A04541200B02370 /* TeamDetails.swift */; };
 		17AAAB5B2A04542200B02370 /* PlayerDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AAAB5A2A04542200B02370 /* PlayerDetails.swift */; };
 		17AAAB5E2A04585D00B02370 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AAAB5D2A04585D00B02370 /* Constants.swift */; };
+		17B726832A123E9D001B7409 /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B726822A123E9D001B7409 /* MyTabBarController.swift */; };
 		17FFF6352A093BA500E1583B /* LabelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF6342A093BA500E1583B /* LabelGenerator.swift */; };
 		17FFF63B2A099DC400E1583B /* OnboardingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF63A2A099DC400E1583B /* OnboardingPresenter.swift */; };
 		17FFF63D2A09A61100E1583B /* PlayerDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FFF63C2A09A61100E1583B /* PlayerDetailsPresenter.swift */; };
@@ -161,6 +162,7 @@
 		17AAAB582A04541200B02370 /* TeamDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamDetails.swift; sourceTree = "<group>"; };
 		17AAAB5A2A04542200B02370 /* PlayerDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetails.swift; sourceTree = "<group>"; };
 		17AAAB5D2A04585D00B02370 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		17B726822A123E9D001B7409 /* MyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
 		17FFF6342A093BA500E1583B /* LabelGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelGenerator.swift; sourceTree = "<group>"; };
 		17FFF63A2A099DC400E1583B /* OnboardingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPresenter.swift; sourceTree = "<group>"; };
 		17FFF63C2A09A61100E1583B /* PlayerDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsPresenter.swift; sourceTree = "<group>"; };
@@ -614,6 +616,7 @@
 				17A942D12A01690900A9EF64 /* favorites */,
 				17A942D02A01690300A9EF64 /* all_sports */,
 				17823C892A0056AB009A8ED3 /* splash */,
+				17B7267F2A123E4F001B7409 /* tabbar */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -726,6 +729,14 @@
 				177FCAB72A0D80A2005D3D23 /* loading.json */,
 			);
 			path = util;
+			sourceTree = "<group>";
+		};
+		17B7267F2A123E4F001B7409 /* tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				17B726822A123E9D001B7409 /* MyTabBarController.swift */,
+			);
+			path = tabbar;
 			sourceTree = "<group>";
 		};
 		2379AA3738F7BDFFF0B5055E /* Pods */ = {
@@ -919,6 +930,7 @@
 				177227522A0C187300B3556F /* FavoritesViewProtocol.swift in Sources */,
 				17823C652A002A01009A8ED3 /* SplashViewController.swift in Sources */,
 				17A942D72A01767600A9EF64 /* SportItem.swift in Sources */,
+				17B726832A123E9D001B7409 /* MyTabBarController.swift in Sources */,
 				1756C95F2A0AC406006844AD /* AllSportsViewProtocol.swift in Sources */,
 				17FFF6472A09A65E00E1583B /* AllSportsPresenter.swift in Sources */,
 				17A942DC2A0195EE00A9EF64 /* LeaguesTableViewCell.swift in Sources */,

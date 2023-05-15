@@ -953,10 +953,10 @@
             </objects>
             <point key="canvasLocation" x="1912.2137404580151" y="723.94366197183103"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--My Tab Bar Controller-->
         <scene sceneID="fDH-gL-Fxh">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="YUr-Ww-324" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="YUr-Ww-324" customClass="MyTabBarController" customModule="SportOn" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Qed-QD-0jk"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cIM-yw-odx">
@@ -979,7 +979,7 @@
         <scene sceneID="NCK-l1-bee">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="apb-8X-deI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="scoreboardTabBar" id="LMK-r8-8Ep"/>
+                    <tabBarItem key="tabBarItem" title="" image="scoreboardTabBarPhone" id="LMK-r8-8Ep"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="hif-4k-hvh">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -1117,7 +1117,7 @@
         <scene sceneID="3Fb-Eu-nIL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GVp-IX-yh3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="favoritesTabBar" id="1fs-Ii-QVs"/>
+                    <tabBarItem key="tabBarItem" title="" image="favoritesTabBarPhone" id="1fs-Ii-QVs"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="FtE-So-BTO">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -1138,14 +1138,14 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="emptystar" width="519" height="481"/>
-        <image name="favoritesTabBar" width="38" height="38"/>
-        <image name="scoreboardTabBar" width="38" height="38"/>
+        <image name="favoritesTabBarPhone" width="32" height="32"/>
+        <image name="scoreboardTabBarPhone" width="30" height="30"/>
         <image name="vsimage" width="500" height="500"/>
         <namedColor name="myBackgroundColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="myTabBarColor">
-            <color red="0.14117647058823529" green="0.14509803921568626" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.14499999582767487" blue="0.15299999713897705" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
