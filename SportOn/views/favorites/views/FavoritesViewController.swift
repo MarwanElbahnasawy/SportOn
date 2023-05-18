@@ -175,6 +175,7 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         presenter.reloadDataAtViewWillAppear()
     }
     
