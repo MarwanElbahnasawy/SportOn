@@ -143,7 +143,6 @@ class FavoritesViewController: MyBaseViewController, UITableViewDelegate, UITabl
                     
                     self.presenter.deleteTeam(teamKey: currentTeam.team_key!) {
                         InsertDeleteSnackBar.make(in: self.view, message: "Deleted Successfully.", duration: .custom(1)).show()
-                        print("deleteeddededededded")
                     }
                 })
                 

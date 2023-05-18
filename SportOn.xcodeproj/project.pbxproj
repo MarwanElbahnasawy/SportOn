@@ -598,14 +598,14 @@
 			children = (
 				17AAAB5C2A04584400B02370 /* util */,
 				17A942E22A0197C000A9EF64 /* data */,
-				17823C772A002DA6009A8ED3 /* views */,
+				17823C772A002DA6009A8ED3 /* presentation */,
 				177227582A0C20BB00B3556F /* core */,
 				177227572A0C20A400B3556F /* resources */,
 			);
 			path = SportOn;
 			sourceTree = "<group>";
 		};
-		17823C772A002DA6009A8ED3 /* views */ = {
+		17823C772A002DA6009A8ED3 /* presentation */ = {
 			isa = PBXGroup;
 			children = (
 				172524BF2A067CDD00D35613 /* onboarding */,
@@ -618,7 +618,7 @@
 				17823C892A0056AB009A8ED3 /* splash */,
 				17B7267F2A123E4F001B7409 /* tabbar */,
 			);
-			path = views;
+			path = presentation;
 			sourceTree = "<group>";
 		};
 		17823C892A0056AB009A8ED3 /* splash */ = {
